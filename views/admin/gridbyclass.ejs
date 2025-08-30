@@ -1,0 +1,73 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container mt-5">
+  <h2>Weekly Timetable for Class: <%= classGroup %></h2>
+  <table class="table table-bordered text-center">
+    <thead>
+      <tr>
+        <th>Day</th>
+        <% timeSlots.forEach(slot => { %>
+          <th><%= slot %></th>
+        <% }) %>
+      </tr>
+    </thead>
+    <tbody>
+      <% days.forEach(day => { %>
+        <tr>
+          <td><%= day %></td>
+          <% timeSlots.forEach(slot => { 
+            const cell = grid[day][slot];
+          %>
+            <td>
+              <% if (cell) { %>
+                <%= cell.subject %><br>
+                (<%= cell.teacher?.username || "?" %>)<br>
+                Room: <%= cell.room %><br>
+
+                <a href="/exchange/initiate?teacherId=<%= cell.teacher._id %>&classGroup=<%= cell.classGroup %>&day=<%= day %>&timeSlot=<%= slot %>" class="btn btn-sm btn-primary mt-1">Exchange</a>
+
+                <a href="/admin/editslot?day=<%= day %>&slot=<%= slot %>&target=class&classGroup=<%= classGroup %>" class="btn btn-sm btn-warning mt-1">Edit</a>
+                <!-- 
+                They’re two different uses and you can’t just stick ? “anywhere” — context matters:
+
+                1. In route definitions (the path pattern)  
+                Here ? makes the preceding part optional, and it’s part of Express’s underlying path-to-regexp syntax.
+
+                :id? means the route param is optional:  
+
+                /users/123 and /users both match /users/:id?.  
+
+                You can also make a fixed segment optional by putting ? after it:  
+
+                /product/new? would match /product/ne or /product/new (not common). It would not match /product/abc because the pattern only allows either ne or new after /product/; arbitrary text like abc doesn’t fit.  
+
+                More realistic: /user(s)? would match /user or /users (because the s is optional).  
+
+                You can’t just put ? arbitrarily; it applies to what’s immediately before it (a param name or character/group).
+
+                2. In a URL (query string)  
+                The ? after the path (e.g., /search?term=apple) marks the start of query parameters. That ? is not optional in the sense that if you have query params you need exactly one to begin them; you can’t put it elsewhere or repeat it.  
+
+                The & symbol is used inside the query string to separate multiple parameters:  
+                /search?term=apple&page=2&sort=desc  
+                Here:  
+                req.query.term  // "apple"  
+                req.query.page  // "2"  
+                req.query.sort  // "desc"
+
+                Summary:  
+                In route patterns, ? makes the thing before it optional (like :id?).  
+
+                In actual URLs, ? begins the query string and isn’t used “after” : — those are separate concepts.  
+                -->
+
+              <% } else { %>
+                -
+              <% } %>
+            </td>
+          <% }) %>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,103 @@
+
+  <style>
+    .dashboard-section {
+      padding: 40px 0;
+    }
+    .dashboard-title {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .action-card {
+      border-radius: 12px;
+      transition: transform 0.2s;
+      height: 100%;
+    }
+    .action-card:hover {
+      transform: scale(1.02);
+    }
+    .card-body {
+      text-align: center;
+    }
+    .card-link {
+      text-decoration: none;
+      color: inherit;
+    }
+  </style>
+<% layout("/layouts/boilerplate") %>
+  <div class="container dashboard-section">
+    <h1 class="dashboard-title">Admin Dashboard</h1>
+
+    <div class="row g-4">
+      <!-- Add Single User -->
+      <div class="col-md-4">
+        <a href="/admin/adduser" class="card-link">
+          <div class="card action-card shadow bg-primary text-white">
+            <div class="card-body">
+              <h5 class="card-title">Add User</h5>
+              <p class="card-text">Create a new student or teacher account manually.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Upload Users in Bulk -->
+      <div class="col-md-4">
+        <a href="/admin/uploadusers" class="card-link">
+          <div class="card action-card shadow bg-success text-white">
+            <div class="card-body">
+              <h5 class="card-title">Bulk Upload Users</h5>
+              <p class="card-text">Upload users using a CSV file.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- View All Users -->
+      <div class="col-md-4">
+        <a href="/admin/users" class="card-link">
+          <div class="card action-card shadow bg-warning text-dark">
+            <div class="card-body">
+              <h5 class="card-title">View Users</h5>
+              <p class="card-text">See all registered students and teachers.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Add Timetable -->
+      <div class="col-md-6">
+        <a href="/admin/timetable/add" class="card-link">
+          <div class="card action-card shadow bg-info text-white">
+            <div class="card-body">
+              <h5 class="card-title">Add Timetable</h5>
+              <p class="card-text">Create weekly schedules for different classes.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+      <!-- Bulk Upload Timetables -->
+      <div class="col-md-6">
+        <a href="/admin/timetable/bulk-upload" class="card-link">
+          <div class="card action-card shadow bg-danger text-white">
+            <div class="card-body">
+              <h5 class="card-title">Bulk Upload Timetables</h5>
+              <p class="card-text">Upload multiple timetable entries using a CSV file.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- View Timetables -->
+      <div class="col-md-6">
+        <a href="/admin/timetable" class="card-link">
+          <div class="card action-card shadow bg-secondary text-white">
+            <div class="card-body">
+              <h5 class="card-title">View Timetables</h5>
+              <p class="card-text">View and manage all class timetables.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+

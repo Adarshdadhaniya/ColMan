@@ -1,0 +1,15 @@
+<% layout("/layouts/boilerplate") %>
+  <h2>Bulk User Upload</h2>
+  <form action="/admin/uploadusers" method="POST" enctype="multipart/form-data">
+    <input type="file" name="userFile" accept=".csv" required />
+    <button type="submit">Upload</button>
+  </form>
+
+<!-- enctype="multipart/form-data" is an HTML form attribute that tells the browser how to encode form data before sending it to the server.
+
+1. Why it’s used
+It’s required when your form includes file uploads (<input type="file">).
+
+Without it, files won’t be sent properly — only their filenames might get transmitted.
+
+It tells the browser: “Send the form as multiple separate parts, so that binary data like images can be included.” -->

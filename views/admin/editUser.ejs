@@ -1,0 +1,36 @@
+<% layout("/layouts/boilerplate") %>
+<div class="container mt-5">
+  <h2>Edit User</h2>
+  <form method="POST" action="/admin/users/<%= user._id %>?_method=PUT" >
+    <div class="mb-3">
+      <label>Email</label>
+      <input type="email" name="email" value="<%= user.email %>" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label>Role</label>
+      <select name="role" class="form-select">
+        <option value="student" <%= user.role === 'student' ? 'selected' : '' %>>Student</option>
+        <option value="teacher" <%= user.role === 'teacher' ? 'selected' : '' %>>Teacher</option>
+        <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Admin</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>Class Group (separated by ;)</label>
+      <input type="text" name="classGroup" class="form-control" value="<%= user.classGroup.join(';') %>">
+    </div>
+
+    <div class="mb-3">
+      <label>Teaches (for teachers, separated by ;)</label>
+      <input type="text" name="teaches" class="form-control" value="<%= user.teaches.join(';') %>">
+    </div>
+
+    <div class="mb-3">
+      <label>Roll Number (for students only)</label>
+      <input type="number" name="rollNumber" class="form-control" value="<%= user.rollNumber || '' %>">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
+</div>

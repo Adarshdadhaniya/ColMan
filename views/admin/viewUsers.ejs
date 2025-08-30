@@ -1,0 +1,82 @@
+<% layout("/layouts/boilerplate") %>
+<div class="container mt-5">
+  <h1 class="mb-4">All Users</h1>
+
+  <!-- Students Section -->
+  <h2 class="text-primary">Students</h2>
+  <% if (students.length > 0) { %>
+    <div class="table-responsive mb-5">
+      <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Roll Number</th>
+            <th>Class Group(s)</th>
+            <th>College ID</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% students.forEach(student => { %>
+            <tr>
+              <td><%= student.username %></td>
+              <td><%= student.email %></td>
+              <td><%= student.rollNumber %></td>
+              <td><%= student.classGroup?.[0] || '' %></td>
+              <td><%= student.collegeId %></td>
+              <td>
+                <a href="/admin/users/<%= student._id %>/edit" class="btn btn-sm btn-warning">Edit</a>
+                <form action="/admin/users/<%= student._id %>?_method=DELETE" method="POST" style="display:inline;">
+                  <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } else { %>
+    <p>No students found.</p>
+  <% } %>
+
+  <!-- Teachers Section -->
+  <h2 class="text-success">Teachers</h2>
+  <% if (teachers.length > 0) { %>
+    <div class="table-responsive mb-5">
+      <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Teaches</th>
+            <th>Class Group(s)</th>
+            <th>College ID</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% teachers.forEach(teacher => { %>
+            <tr>
+              <td><%= teacher.username %></td>
+              <td><%= teacher.email %></td>
+              <td><%= teacher.teaches.join(", ") %></td>
+              <!-- .join(", ") turns that array into a single string with elements separated by comma+space: "A, B, C". -->
+              <td><%= teacher.classGroup.join(", ") %></td>
+              <td><%= teacher.collegeId %></td>
+              <td>
+                    <a href="/admin/users/<%= teacher._id %>/edit" class="btn btn-sm btn-warning">Edit</a>
+                    <form action="/admin/users/<%= teacher._id %>?_method=DELETE" method="POST" style="display:inline;">
+                        <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                    </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } else { %>
+    <p>No teachers found.</p>
+  <% } %>
+</div>

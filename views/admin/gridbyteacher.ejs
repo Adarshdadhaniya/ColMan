@@ -1,0 +1,44 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container mt-5">
+  <h2>Weekly Timetable for Teacher: <%= teacher.username %></h2>
+  <table class="table table-bordered text-center">
+    <thead>
+      <tr>
+        <th>Day</th>
+        <% timeSlots.forEach(slot => { %>
+          <th><%= slot %></th>
+        <% }) %>
+      </tr>
+    </thead>
+    <tbody>
+      <% days.forEach(day => { %>
+        <tr>
+          <td><%= day %></td>
+          <% timeSlots.forEach(slot => {
+            const cell = grid[day][slot];
+          %>
+            <td>
+              <% if (cell) { %>
+                <%= cell.subject %><br>
+                Room: <%= cell.room %><br>
+                Class: 
+                <% if (Array.isArray(cell.classGroup)) { %>
+                  <%= cell.classGroup.join(", ") %>
+                <% } else { %>
+                  <%= cell.classGroup %>
+                <% } %><br>
+
+                <a href="/exchange/initiate?teacherId=<%= teacher._id %>&classGroup=<%= Array.isArray(cell.classGroup) ? cell.classGroup[0] : cell.classGroup %>&day=<%= day %>&timeSlot=<%= slot %>" class="btn btn-sm btn-primary mt-1">Exchange</a>
+
+                <a href="/admin/editslot?day=<%= day %>&slot=<%= slot %>&target=teacher&teacherId=<%= teacher._id %>" class="btn btn-sm btn-warning mt-1">Edit</a>
+              <% } else { %>
+                -
+              <% } %>
+            </td>
+          <% }) %>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

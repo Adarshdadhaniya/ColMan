@@ -1,0 +1,47 @@
+<% layout("/layouts/boilerplate") %>
+
+  <div class="container mt-5">
+    <h2>Add New User</h2>
+    <form action="/admin/adduser" method="POST" class="mt-4">
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input name="username" required type="text" class="form-control" />
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input name="email" required type="email" class="form-control" />
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input name="password" required type="password" class="form-control" />
+      </div>
+
+      <div class="mb-3">
+        <label for="role" class="form-label">Role</label>
+        <select name="role" class="form-select" required>
+          <option value="">Select Role</option>
+          <option value="student">Student</option>
+          <option value="teacher">Teacher</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="classGroup" class="form-label">Class Groups (separate by ;)</label>
+        <input name="classGroup" type="text" class="form-control" />
+      </div>
+
+      <div class="mb-3">
+        <label for="teaches" class="form-label">Subjects Taught (for teachers, separate by ;)</label>
+        <input name="teaches" type="text" class="form-control" />
+      </div>
+
+      <div class="mb-3">
+        <label for="rollNumber" class="form-label">Roll Number (for students only)</label>
+        <input name="rollNumber" type="number" class="form-control" />
+      </div>
+
+      <button type="submit" class="btn btn-primary">Add User</button>
+    </form>
+  </div>

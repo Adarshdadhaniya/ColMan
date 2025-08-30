@@ -105,7 +105,7 @@ app.use((req, res, next) => {
 
 
 
-// app.use("/admin", adminRoutes);
+app.use("/admin", adminRoutes);
 // app.use("/teacher", teacherRouter);
 // app.use("/rooms", roomRoutes);
 // app.use("/exchange",exchangerouter);

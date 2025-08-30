@@ -1,0 +1,62 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container mt-4">
+  <h2>Edit Slot - <%= slot.day %> | <%= slot.timeSlot %></h2>
+
+  <form method="POST" action="/admin/editslot/<%= slot._id %>?_method=PUT">
+    <!-- Subject input -->
+    <div class="mb-3">
+      <label class="form-label">Subject</label>
+      <input type="text" name="subject" class="form-control" value="<%= slot.subject %>" required>
+    </div>
+
+    <!-- Teacher dropdown -->
+    <div class="mb-3">
+      <label class="form-label">Teacher</label>
+      <select name="teacher" class="form-select" required>
+        <% teachers.forEach(t => { %>
+          <option value="<%= t._id %>" <%= slot.teacher && t._id.equals(slot.teacher._id) ? 'selected' : '' %>><%= t.username %></option>
+        <% }) %>
+      </select>
+    </div>
+
+    <!-- ClassGroup single-select -->
+    <div class="mb-3">
+      <label class="form-label">Class Group</label>
+      <select name="classGroup" class="form-select" required>
+        <% classGroups.forEach(cg => { %>
+          <option value="<%= cg %>" <%= slot.classGroup === cg ? 'selected' : '' %>><%= cg %></option>
+        <% }) %>
+      </select>
+    </div>
+
+    <!-- Room -->
+    <div class="mb-3">
+      <label class="form-label">Room</label>
+      <input type="text" name="room" class="form-control" value="<%= slot.room %>" required>
+    </div>
+
+    <!-- Day -->
+    <div class="mb-3">
+      <label class="form-label">Day</label>
+      <select name="day" class="form-select" required>
+        <% days.forEach(d => { %>
+          <option value="<%= d %>" <%= d === slot.day ? 'selected' : '' %>><%= d %></option>
+        <% }) %>
+      </select>
+    </div>
+
+    <!-- Time Slot -->
+    <div class="mb-3">
+      <label class="form-label">Time Slot</label>
+      <select name="timeSlot" class="form-select" required>
+        <% timeSlots.forEach(s => { %>
+          <option value="<%= s %>" <%= s === slot.timeSlot ? 'selected' : '' %>><%= s %></option>
+        <% }) %>
+      </select>
+    </div>
+
+    <!-- Submit -->
+    <button type="submit" class="btn btn-success">Update Slot</button>
+  </form>
+</div>

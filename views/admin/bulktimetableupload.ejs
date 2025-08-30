@@ -1,0 +1,20 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container mt-5">
+  <h2>Bulk Upload Timetables</h2>
+  <form action="/admin/timetable/bulk-upload" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label class="form-label">Upload CSV File</label>
+      <input type="file" name="csvFile" accept=".csv" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+  </form>
+  <div class="mt-4">
+    <h5>CSV Format:</h5>
+    <pre>
+collegeId,classGroup,subject,teacherEmail,day,timeSlot,room,isExtra
+C101,CS-A,Math,john@example.com,Monday,9:00–10:00,Room 12,false
+    </pre>
+  </div>
+</div>
+

@@ -1,0 +1,53 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container mt-5">
+  <h2>Add Timetable Slot</h2>
+  <form action="/admin/timetables/add" method="POST">
+    <div class="mb-3">
+      <label>College ID</label>
+      <input type="text" name="collegeId" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label>Class Group</label>
+      <input type="text" name="classGroup" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label>Subject</label>
+      <input type="text" name="subject" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label>Teacher</label>
+      <select name="teacher" class="form-control" required>
+        <% teachers.forEach(t => { %>
+          <option value="<%= t._id %>"><%= t.username %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label>Day</label>
+      <select name="day" class="form-control" required>
+        <option>Monday</option>
+        <option>Tuesday</option>
+        <option>Wednesday</option>
+        <option>Thursday</option>
+        <option>Friday</option>
+        <option>Saturday</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label>Time Slot</label>
+      <input type="text" name="timeSlot" class="form-control" placeholder="e.g. 10:00 AM - 11:00 AM" required>
+    </div>
+    <div class="mb-3">
+      <label>Room</label>
+      <input type="text" name="room" class="form-control" required>
+    </div>
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="checkbox" name="isExtra" id="isExtra">
+      <label class="form-check-label" for="isExtra">Is Extra Class?</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Slot</button>
+  </form>
+</div>
+
+ 
