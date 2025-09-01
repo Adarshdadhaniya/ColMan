@@ -127,7 +127,7 @@ app.use("/", usersRouter);
 
 
 
-cron.schedule("18 18 * * *", async () => {
+cron.schedule("18 18 * * *", async () =>  {
   // get tomorrow's date (midnight)
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 100);
