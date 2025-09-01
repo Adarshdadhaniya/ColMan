@@ -127,18 +127,19 @@ app.use("/", usersRouter);
 
 
 
-cron.schedule("18 18 * * *", async () =>  {
-  // get tomorrow's date (midnight)
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 100);
-  tomorrow.setHours(0, 0, 0, 0);
+cron.schedule("0 1 * * *", async () => { // runs at 1:00 AM
+  try {
+    const now = new Date(); // current date and time
 
-  await TimetableSlot.deleteMany({
-    isExtra: true,
-    date: { $lt: tomorrow }
-  });
+    const result = await TimetableSlot.deleteMany({
+      isExtra: true,
+      date: { $lt: now } // remove all extra classes with a date before now
+    });
 
-  console.log("🗑️ Old extra classes (before tomorrow) removed at 6:01 PM");
+    console.log(`🗑️ Deleted ${result.deletedCount} old extra classes at 1:00 AM`);
+  } catch (err) {
+    console.error("Error deleting old extra classes:", err);
+  }
 });
 
 
