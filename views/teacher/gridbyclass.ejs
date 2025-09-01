@@ -1,0 +1,37 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container mt-5">
+  <h2>Weekly Timetable for Class: <%= classGroup %></h2>
+  <table class="table table-bordered text-center">
+    <thead>
+      <tr>
+        <th>Day</th>
+        <% timeSlots.forEach(slot => { %>
+          <th><%= slot %></th>
+        <% }) %>
+      </tr>
+    </thead>
+    <tbody>
+      <% days.forEach(day => { %>
+        <tr>
+          <td><%= day %></td>
+          <% timeSlots.forEach(slot => {
+            const cell = grid[day][slot];
+          %>
+            <td>
+              <% if (cell) { %>
+                <%= cell.subject %><br>
+                (<%= cell.teacher?.username || "?" %>)<br>
+                Room: <%= cell.room %><br>
+                Class: <%= cell.classGroup %><br>
+                <a href="/teacher/editslot?day=<%= day %>&slot=<%= slot %>&target=class&classGroup=<%= classGroup %>" class="btn btn-sm btn-warning mt-1">Edit</a>
+              <% } else { %>
+                -
+              <% } %>
+            </td>
+          <% }) %>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

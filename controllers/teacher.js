@@ -57,131 +57,137 @@ module.exports.viewTimetableByTeacher = async (req, res) => {
 
 module.exports.selectClassTimetable = async (req, res) => {
   const classGroups = await TimetableSlot.distinct("classGroup");
-  res.render("teacher/selectclass", { classGroups });
+  res.render("teacher/selectfromclasses", { classGroups });
 }; 
 
+// STEP 1: Show classes teacher is teaching
+module.exports.getSelectClass = async (req, res) => {
+  const teacherId = req.user._id;
+  const classes = await TimetableSlot.distinct("classGroup", { teacher: teacherId });
+  res.render("teacher/selectClass", { classes });
+};
 
+// STEP 2: Handle class selection and date input
+module.exports.postSelectClass = async (req, res) => {
+  const { classGroup, date } = req.body;
+  res.redirect(`/teacher/extra/select-slot/${classGroup}/${date}`);
+};
 
+// STEP 3: Show slots for that class & date
+module.exports.getSelectSlot = async (req, res) => {
+  const { classGroup, date } = req.params;
+  const teacherId = req.user._id;
 
+  const dayName = new Date(date).toLocaleDateString("en-US", { weekday: "long" });
 
+  // Find slots already booked for that date/classGroup
+  const slots = await TimetableSlot.find({
+    collegeId: req.user.collegeId,
+    classGroup,
+    day: dayName,
+    timeSlot: { $exists: true },
+  }).populate("teacher");
+  console.log(slots);
+  res.render("teacher/selectSlot", {
+    classGroup,
+    date,
+    slots,
+    timeSlots: TIME_SLOTS,
+    days: DAYS
+  });
+};
 
-module.exports.getAvailableExtraClassForm = async (req, res) => {
-  const { classGroup, date } = req.query;
-  const teacherId = req.user?._id;
+// STEP 4: Handle slot choice
+module.exports.postSelectSlot = async (req, res) => {
+  const { classGroup, date, slot, isFree } = req.body;
+  const day = new Date(date).toLocaleDateString("en-US", { weekday: "long" });
 
-  try {
-    const teacherUser = await User.findById(teacherId);
-    const teacherClassGroups = Array.isArray(teacherUser?.classGroup) ? teacherUser.classGroup : [];
-
-    const baseRender = {
-      classGroups: teacherClassGroups,
-      selectedClassGroup: classGroup || "",
-      selectedDate: date || "",
-      timeslots: [],
-      selectedSlot: "",
-    };
-
-    if (!classGroup || !date) {
-      return res.render("teacher/extraClassForm", baseRender);
-    }
-
-    const dayOfWeek = moment(date).format("dddd");
-
-    const occupiedSlots = await TimetableSlot.find({
-      $or: [
-        { teacher: teacherId },
-        { classGroup }
-      ],
-      $or: [
-        { date: new Date(date) },
-        { date: null, day: dayOfWeek }
-      ]
-    }).distinct("timeSlot");
-
-    const freeSlots = TIME_SLOTS.filter(s => !occupiedSlots.includes(s));
-
-    return res.render("teacher/extraClassForm", {
-      ...baseRender,
-      timeslots: freeSlots
-    });
-  } catch (err) {
-    console.error("Error rendering extra class form:", err);
-    res.status(500).send("Internal Server Error");
+  if (isFree === "true") {
+    // Next → pick a room
+    res.redirect(`/teacher/extra/select-room/${classGroup}/${day}/${slot}`);
+  } else {
+    // Occupied slot → exchange
+    res.redirect(`/exchange/initiate?classGroup=${classGroup}&date=${date}&slot=${slot}`);
   }
 };
 
+// STEP 5: Show available rooms for that slot
+module.exports.getSelectRoom = async (req, res) => {
+  const { classGroup, day, slot } = req.params;
 
+  // all rooms
+  const allRooms = await TimetableSlot.distinct("room", { collegeId: req.user.collegeId });
 
-module.exports.renderExtraClassBookingForm = async (req, res) => {
-  const { classGroup, date, slot } = req.query;
-  const teacherId = req.user?._id;
+  // rooms already booked for that day+slot
+  const bookedRooms = await TimetableSlot.distinct("room", {
+    collegeId: req.user.collegeId,
+    day,
+    timeSlot: slot,
+  });
 
-  if (!classGroup || !date || !slot) {
-    return res.status(400).send("Missing required data");
-  }
+  const freeRooms = allRooms.filter(r => !bookedRooms.includes(r));
 
-  try {
-    const teacherUser = await User.findById(teacherId);
-    const allRooms = await TimetableSlot.distinct("room");
+  // Calculate date from day for the form (assuming current week)
+  const today = new Date();
+  const currentDay = today.getDay(); // 0 = Sunday, 1 = Monday, etc.
+  const targetDayIndex = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].indexOf(day);
+  const daysDiff = targetDayIndex - currentDay;
+  const targetDate = new Date(today);
+  targetDate.setDate(today.getDate() + daysDiff);
+  const date = targetDate.toISOString().split('T')[0];
 
-    const dayOfWeek = moment(date).format("dddd");
-
-    const occupiedRooms = await TimetableSlot.find({
-      timeSlot: slot,
-      $or: [
-        { date: new Date(date) },
-        { date: null, day: dayOfWeek }
-      ]
-    }).distinct("room");
-
-    const freeRooms = allRooms.filter(r => !occupiedRooms.includes(r));
-
-    const subjects = Array.isArray(teacherUser.teaches) ? teacherUser.teaches : [];
-    
-
-    return res.render("teacher/confirmExtraClass", {
-      classGroup,
-      date,
-      slot,
-      freeRooms,
-      subjects
-    });
-  } catch (err) {
-    console.error("Error rendering confirm form:", err);
-    res.status(500).send("Internal Server Error");
-  }
+  res.render("teacher/selectRoom", {
+    classGroup,
+    day,
+    date,
+    slot,
+    freeRooms,
+  });
 };
 
-
-module.exports.bookExtraClass = async (req, res) => {
-  const { classGroup, date, slot, subject, room } = req.body;
-  const teacherId = req.user?._id;
-
-  if (!classGroup || !date || !slot || !subject || !room) {
-    return res.status(400).send("Missing required fields");
-  }
-
-  try {
-    await TimetableSlot.create({
-      collegeId: req.user.collegeId,
-      classGroup,
-      subject,
-      teacher: teacherId,
-      day: moment(date).format("dddd"),
-      date: new Date(date),
-      timeSlot: slot,
-      room,
-      isExtra: true
-    });
-
-    res.redirect("/teacher/extraClass?success=1");
-  } catch (err) {
-    console.error("Error booking extra class:", err);
-    res.status(500).send("Could not book extra class");
-  }
+// STEP 6: Handle room choice → go to subject selection
+module.exports.postSelectRoom = (req, res) => {
+  const { classGroup, date, slot, room } = req.body;
+  res.redirect(`/teacher/extra/select-subject/${classGroup}/${date}/${slot}/${room}`);
 };
 
+// STEP 7: Show subjects teacher teaches this classGroup
+module.exports.getSelectSubject = async (req, res) => {
+  const { classGroup, date, slot, room } = req.params;
 
+  const teacherId = req.user._id;
+  const subjects = await TimetableSlot.distinct("subject", {
+    teacher: teacherId,
+    classGroup,
+  });
+
+  res.render("teacher/selectSubject", {
+    classGroup,
+    date,
+    slot,
+    room,
+    subjects,
+  });
+};
+
+// STEP 8: Create the extra class
+module.exports.postCreateExtra = async (req, res) => {
+  const { classGroup, date, slot, room, subject } = req.body;
+
+  await TimetableSlot.create({
+    collegeId: req.user.collegeId,
+    classGroup,
+    subject,
+    teacher: req.user._id,
+    day: new Date(date).toLocaleDateString("en-US", { weekday: "long" }),
+    date,
+    timeSlot: slot,
+    room,
+    isExtra: true,
+  });
+
+  res.redirect("/teacher/dashboard");
+};
 
 
 

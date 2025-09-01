@@ -1,0 +1,90 @@
+<% layout('/layouts/boilerplate') %>
+
+<div class="container mt-5">
+  <h1 class="mb-4">Welcome, <%= teacher.username %>!</h1>
+
+  <!-- Timetable Section -->
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white">Timetable</div>
+    <div class="card-body">
+      <a href="/teacher/timetable/teacher/<%= teacher._id %>" class="btn btn-outline-primary mb-2">View My Timetable</a>
+      <a href="/teacher/timetable/class" class="btn btn-outline-primary mb-2">View Class Timetables</a>
+    </div>
+  </div>
+
+  <!-- Room Booking --> 
+  <div class="card mb-4"> 
+    <div class="card-header bg-success text-white">Extra Class</div>
+    <div class="card-body">
+      <a href="/teacher/extra/select-class" class="btn btn-outline-success mb-2">Take Extra Class</a>
+      
+    </div>
+  </div>
+
+  <!-- Leave Application -->
+  <div class="card mb-4">
+    <div class="card-header bg-warning text-dark">Leaves</div>
+    <div class="card-body">
+      <form action="/leave/apply" method="POST" class="mb-2">
+        <button type="submit" class="btn btn-warning">Apply for Leave</button>
+      </form>
+      <a href="/leave/teacherid" class="btn btn-outline-warning">My Leave History</a>
+    </div>
+  </div>
+
+  <!-- Class Exchange -->
+  <div class="card mb-4">
+    <div class="card-header bg-info text-white">Class Exchange</div>
+    <div class="card-body">
+      <a href="/exchange/available-teachers" class="btn btn-outline-info mb-2">Find Replacement Teachers</a>
+      <form action="/exchange/request" method="GET" class="mb-2">
+        <button type="submit" class="btn btn-info">Request Exchange</button>
+      </form>
+      <a href="/exchange/requests" class="btn btn-outline-info mb-2">View Incoming Requests</a>
+    </div>
+  </div>
+
+  <!-- Exams -->
+  <div class="card mb-4">
+    <div class="card-header bg-danger text-white">Exams</div>
+    <div class="card-body">
+      <form action="/exam/schedule" method="POST" class="mb-2">
+        <button type="submit" class="btn btn-danger">Schedule Exam</button>
+      </form>
+      <a href="/exam/list" class="btn btn-outline-danger">All Exams</a>
+    </div>
+  </div>
+
+  <!-- Seating Plan -->
+  <div class="card mb-4">
+    <div class="card-header bg-dark text-white">Seating Plan</div>
+    <div class="card-body">
+      <p>Seating plans are created during room booking for exams.</p>
+      <!-- You could add a seating preview here -->
+    </div>
+  </div>
+
+  <!-- Attendance -->
+  <div class="card mb-4">
+    <div class="card-header bg-secondary text-white">Attendance</div>
+    <div class="card-body">
+      <form action="/attendance/mark" method="POST" class="mb-2">
+        <button type="submit" class="btn btn-secondary">Mark Attendance</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Files Section -->
+  <div class="card mb-4">
+    <div class="card-header bg-light text-dark">Files</div>
+    <div class="card-body">
+      <form action="/files/upload" method="POST" enctype="multipart/form-data" class="mb-2">
+        <input type="file" name="file" required>
+        <button type="submit" class="btn btn-outline-dark mt-2">Upload File</button>
+      </form>
+      <% for(let cg of teacher.classGroup) { %>
+        <a href="/files/class/<%= cg %>" class="btn btn-outline-dark mt-2">Files for Class <%= cg %></a>
+      <% } %>
+    </div>
+  </div>
+</div>

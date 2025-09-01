@@ -1,0 +1,16 @@
+<h2>Select Subject for Extra Class</h2>
+<form method="POST" action="/teacher/extra/create">
+  <input type="hidden" name="classGroup" value="<%= classGroup %>">
+  <input type="hidden" name="date" value="<%= date %>">
+  <input type="hidden" name="slot" value="<%= slot %>">
+  <input type="hidden" name="room" value="<%= room %>">
+
+  <label>Subject:</label>
+  <select name="subject" required>
+    <% subjects.forEach(s => { %>
+      <option value="<%= s %>"><%= s %></option>
+    <% }) %>
+  </select>
+
+  <button type="submit">Confirm Extra Class</button>
+</form>

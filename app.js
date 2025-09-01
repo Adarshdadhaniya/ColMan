@@ -7,12 +7,13 @@ const session = require("express-session");
 const methodOverride = require("method-override");
 const ejsMate=require("ejs-mate");
 const MongoStore = require("connect-mongo");
-
+const cron = require("node-cron");
+const TimetableSlot = require("./models/TimetableSlot");
 
 const usersRouter = require("./routes/user.js");
 const User = require("./models/User.js");
 const adminRoutes = require("./routes/admin.js");
-// const teacherRouter = require("./routes/teacher.js");
+ const teacherRouter = require("./routes/teacher.js");
 // const roomRoutes = require("./routes/rooms.js");
 // const exchangerouter = require("./routes/exchange.js");
 
@@ -106,11 +107,39 @@ app.use((req, res, next) => {
 
 
 app.use("/admin", adminRoutes);
-// app.use("/teacher", teacherRouter);
+app.use("/teacher", teacherRouter);
 // app.use("/rooms", roomRoutes);
 // app.use("/exchange",exchangerouter);
 app.use("/", usersRouter);
 
+
+
+// cron.schedule("0 2 * * *", async () => {
+//   const today = new Date();
+//   await TimetableSlot.deleteMany({
+//     isExtra: true,
+//     date: { $lt: today }
+//   });
+//   console.log("🗑️ Old extra classes removed");
+// });
+
+
+
+
+
+cron.schedule("18 18 * * *", async () => {
+  // get tomorrow's date (midnight)
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 100);
+  tomorrow.setHours(0, 0, 0, 0);
+
+  await TimetableSlot.deleteMany({
+    isExtra: true,
+    date: { $lt: tomorrow }
+  });
+
+  console.log("🗑️ Old extra classes (before tomorrow) removed at 6:01 PM");
+});
 
 
 

@@ -1,0 +1,32 @@
+<h2>Choose Timeslot - <%= classGroup %> (<%= date %>)</h2>
+<table border="1">
+  <tr>
+    <th>Slot</th>
+    <th>Status</th>
+    <th>Action</th>
+  </tr>
+  <% timeSlots.forEach(slot => { %>
+    <% 
+      const match = slots.find(s => s.timeSlot === slot);
+    %>
+    <tr>
+      <td><%= slot %></td>
+      <td>
+        <% if (match) { %>
+          Taken by <%= match.teacher.username %> - <%= match.subject %>
+        <% } else { %>
+          Free
+        <% } %>
+      </td>
+      <td>
+        <form method="POST" action="/teacher/extra/select-slot">
+          <input type="hidden" name="classGroup" value="<%= classGroup %>">
+          <input type="hidden" name="date" value="<%= date %>">
+          <input type="hidden" name="slot" value="<%= slot %>">
+          <input type="hidden" name="isFree" value="<%= match ? "false" : "true" %>">
+          <button type="submit"><%= match ? "Request Exchange" : "Select Slot" %></button>
+        </form>
+      </td>
+    </tr>
+  <% }) %>
+</table>

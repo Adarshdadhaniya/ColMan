@@ -1,0 +1,14 @@
+<h2>Select Class for Extra Class</h2>
+<form method="POST" action="/teacher/extra/select-class">
+  <label>Class Group:</label>
+  <select name="classGroup">
+    <% classes.forEach(c => { %>
+      <option value="<%= c %>"><%= c %></option>
+    <% }) %>
+  </select>
+  
+  <label>Date:</label>
+  <input type="date" name="date" required>
+
+  <button type="submit">Next</button>
+</form>

@@ -1,0 +1,25 @@
+<h2>Choose Room - <%= classGroup %> (<%= day %>) Slot: <%= slot %></h2>
+<% if (freeRooms.length === 0) { %>
+  <p>No free rooms available for this slot.</p>
+<% } else { %>
+  <table border="1">
+    <tr>
+      <th>Room</th>
+      <th>Action</th>
+    </tr>
+    <% freeRooms.forEach(room => { %>
+      <tr>
+        <td><%= room %></td>
+        <td>
+          <form method="POST" action="/teacher/extra/select-room">
+            <input type="hidden" name="classGroup" value="<%= classGroup %>">
+            <input type="hidden" name="date" value="<%= date %>">
+            <input type="hidden" name="slot" value="<%= slot %>">
+            <input type="hidden" name="room" value="<%= room %>">
+            <button type="submit">Select Room</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+<% } %>
