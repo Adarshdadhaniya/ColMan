@@ -23,24 +23,25 @@ router.put("/users/:id",isLoggedIn, isAdmin, wrapAsync(adminController.updateUse
 router.delete("/users/:id", isLoggedIn,isAdmin, wrapAsync(adminController.deleteUser));
 
 // ---------------- TIMETABLE ----------------
-router.get("/timetable", isAdmin, wrapAsync(adminController.renderAllTimetables));
-router.get("/timetable/add", isAdmin, adminController.renderAddForm);
-router.post("/timetable/add", wrapAsync(adminController.addTimetable));
+router.get("/timetable", isLoggedIn,isAdmin, wrapAsync(adminController.renderAllTimetables));
+router.get("/timetable/add", isLoggedIn,isAdmin, adminController.renderAddForm);
+router.post("/timetable/add", isLoggedIn,isAdmin,wrapAsync(adminController.addTimetable));
 
-router.get("/timetable/bulk-upload", isAdmin, adminController.renderBulkUploadForm);
+router.get("/timetable/bulk-upload", isLoggedIn,isAdmin, adminController.renderBulkUploadForm);
 router.post(
   "/timetable/bulk-upload",
+  isLoggedIn,
   isAdmin,
   upload.single("csvFile"),
   wrapAsync(adminController.bulkUploadTimetables)
 );
 
-router.get("/timetable/by-class/:classGroup", isAdmin, wrapAsync(adminController.viewTimetableByClass));
-router.get("/timetable/by-teacher/:teacherId", isAdmin, wrapAsync(adminController.viewTimetableByTeacher));
+router.get("/timetable/by-class/:classGroup", isLoggedIn,isAdmin, wrapAsync(adminController.viewTimetableByClass));
+router.get("/timetable/by-teacher/:teacherId",isLoggedIn, isAdmin, wrapAsync(adminController.viewTimetableByTeacher));
 
 // ---------------- SLOTS ----------------
-router.get("/editslot", wrapAsync(adminController.renderEditSlot));
-router.put("/editslot/:id", wrapAsync(adminController.updateSlot));
+router.get("/editslot",isLoggedIn,isAdmin, wrapAsync(adminController.renderEditSlot));
+router.put("/editslot/:id",isLoggedIn,isAdmin, wrapAsync(adminController.updateSlot));
 
 // ---------------- DASHBOARD ----------------
 router.get("/dashboard", isLoggedIn, isAdmin, wrapAsync(adminController.dashboard));
