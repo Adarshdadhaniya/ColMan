@@ -32,10 +32,10 @@ const userSchema = new Schema({
     {
       type: String,
     },
-  ], // Only for teachers
+  ], 
   rollNumber: {
     type: Number,
-  }, // Only for students
+  }, 
 });
 
 

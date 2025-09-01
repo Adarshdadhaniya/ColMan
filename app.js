@@ -11,7 +11,7 @@ const MongoStore = require("connect-mongo");
 
 const usersRouter = require("./routes/user.js");
 const User = require("./models/User.js");
-// const adminRoutes = require("./routes/admin.js");
+const adminRoutes = require("./routes/admin.js");
 // const teacherRouter = require("./routes/teacher.js");
 // const roomRoutes = require("./routes/rooms.js");
 // const exchangerouter = require("./routes/exchange.js");
