@@ -15,7 +15,7 @@ const User = require("./models/User.js");
 const adminRoutes = require("./routes/admin.js");
  const teacherRouter = require("./routes/teacher.js");
 // const roomRoutes = require("./routes/rooms.js");
-// const exchangerouter = require("./routes/exchange.js");
+const exchangerouter = require("./routes/exchange.js");
 
 
 
@@ -109,7 +109,7 @@ app.use((req, res, next) => {
 app.use("/admin", adminRoutes);
 app.use("/teacher", teacherRouter);
 // app.use("/rooms", roomRoutes);
-// app.use("/exchange",exchangerouter);
+app.use("/exchange",exchangerouter);
 app.use("/", usersRouter);
 
 
@@ -141,6 +141,74 @@ cron.schedule("0 1 * * *", async () => { // runs at 1:00 AM
     console.error("Error deleting old extra classes:", err);
   }
 });
+
+
+// async function findCommonClassGroups() {
+//   try {
+//     // Fetch teacher15
+//     const teacher15 = await User.findOne({ username: "teacher15" }).lean();
+//     if (!teacher15) throw new Error("Teacher15 not found");
+
+//     // Fetch the other teachers
+//     const otherTeachers = await User.find({
+//       username: { $in: ["teacher26", "teacher39", "teacher40", "teacher58"] }
+//     }).lean();
+
+//     // Compare classGroups
+//     otherTeachers.forEach(t => {
+//       const common = t.classGroup.filter(cg => teacher15.classGroup.includes(cg));
+//       console.log(`Common classGroups between Teacher15 and ${t.username}:`, common);
+//     });
+
+//   } catch (err) {
+//     console.error(err);
+//   }
+// }
+
+// // Run
+// findCommonClassGroups();
+
+
+
+
+// async function syncTeacherClassGroups() {
+//   const timetableSlots = await TimetableSlot.find({});
+//   const teacherClassGroups = {};
+
+//   // Step 1: Collect actual classGroups from timetable
+//   for (const slot of timetableSlots) {
+//     if (!teacherClassGroups[slot.teacher]) {
+//       teacherClassGroups[slot.teacher] = new Set();
+//     }
+//     teacherClassGroups[slot.teacher].add(slot.classGroup);
+//   }
+
+//   // Step 2: Get all teachers
+//   const allTeachers = await User.find({ role: "teacher" });
+
+//   for (const teacher of allTeachers) {
+//     const classGroupsSet = teacherClassGroups[teacher._id];
+//     const oldGroups = teacher.classGroup || [];
+
+//     if (classGroupsSet) {
+//       const newGroups = Array.from(classGroupsSet);
+//       await User.findByIdAndUpdate(teacher._id, { classGroup: newGroups });
+
+//       console.log(
+//         `✅ Teacher ${teacher.username}:\n   Old: [${oldGroups}]\n   New: [${newGroups}]`
+//       );
+//     } else {
+//       await User.findByIdAndUpdate(teacher._id, { classGroup: [] });
+
+//       console.log(
+//         `⚠️ Teacher ${teacher.username}:\n   Old: [${oldGroups}]\n   New: [] (cleared, not teaching anything)`
+//       );
+//     }
+//   }
+// }
+
+// // Call the function
+// syncTeacherClassGroups();
 
 
 

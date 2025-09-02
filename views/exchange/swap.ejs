@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Swap Slots</title>
+</head>
+<body>
+  <h1>Swap <%= slot.timeSlot %> | <%= slot.classGroup %> with <%= otherTeacher.username %></h1>
+
+  <% if(otherTeacherSlots.length === 0) { %>
+    <p>No available slots for swap</p>
+  <% } else { %>
+    <% otherTeacherSlots.forEach(s => { %>
+      <form action="/exchange/swap/<%= slot._id %>" method="POST">
+        <input type="hidden" name="swapTimeslotId" value="<%= s._id %>">
+        <input type="hidden" name="selectedTeacherId" value="<%= otherTeacher._id %>">
+        <button type="submit">
+          <%= s.timeSlot %> | <%= s.classGroup %> | <%= s.subject %>
+        </button>
+      </form>
+    <% }) %>
+  <% } %>
+</body>
+</html>

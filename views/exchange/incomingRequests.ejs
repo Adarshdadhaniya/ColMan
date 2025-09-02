@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Incoming Requests</title>
+</head>
+<body>
+  <h1>Incoming Exchange Requests</h1>
+  <% if(requests.length === 0) { %>
+    <p>No incoming requests.</p>
+  <% } %>
+  <ul>
+    <% requests.forEach(r => { %>
+      <li>
+        From: <%= r.sender.username %> | <%= r.day %> | <%= r.timeSlot %> | <%= r.classGroup %>
+        <form action="/exchange/request/<%= r._id %>" method="POST" style="display:inline;">
+          <button name="action" value="approve">Approve</button>
+          <button name="action" value="reject">Reject</button>
+        </form>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>

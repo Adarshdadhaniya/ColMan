@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Select Teacher</title>
+</head>
+<body>
+  <h1>Exchange Slot: <%= slot.timeSlot %> | <%= slot.classGroup %> | <%= slot.subject %></h1>
+  <p>Teacher: <%= slot.teacher.username %></p>
+
+  <form action="/exchange/teachers/<%= slot._id %>" method="GET">
+    <button type="submit">Choose Teacher for Exchange</button>
+  </form>
+
+  <form action="/exchange/swap/<%= slot._id %>" method="GET">
+    <button type="submit">Swap With Another Teacher</button>
+  </form>
+</body>
+</html>

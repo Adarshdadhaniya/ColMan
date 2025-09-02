@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Timetable</title>
+</head>
+<body>
+  <h1>Your Timetable for <%= date %> (<%= day %>)</h1>
+  <table border="1">
+    <tr>
+      <th>Time Slot</th>
+      <th>Class Group</th>
+      <th>Subject</th>
+      <th>Action</th>
+    </tr>
+    <% timetable.forEach(slot => { %>
+      <tr>
+        <td><%= slot.timeSlot %></td>
+        <td><%= slot.classGroup %></td>
+        <td><%= slot.subject %></td>
+        <td>
+          <a href="/exchange/select/<%= slot._id %>">Exchange</a>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+</body>
+</html>

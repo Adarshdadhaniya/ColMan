@@ -1,0 +1,16 @@
+<%- include('../includes/navbar') %>
+<h2>Your slots for <%= new Date(date).toDateString() %></h2>
+<% if (slots.length === 0) { %>
+  <p>No slots found for selected day/date.</p>
+<% } else { %>
+  <ul>
+    <% slots.forEach(slot => { %>
+      <li>
+        <strong><%= slot.timeSlot %></strong> - <%= slot.classGroup %> - <%= slot.subject %> - <%= slot.room %> - <%= slot.date ? new Date(slot.date).toDateString() : 'Recurring (' + slot.day + ')' %>
+        <a href="/exchange/choose-teacher?slotId=<%= slot._id %>&date=<%= encodeURIComponent(date) %>" class="btn">Choose teacher</a>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>
+
+

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Choose Teacher</title>
+</head>
+<body>
+  <h1>Available Teachers for <%= slot.timeSlot %> | <%= slot.classGroup %></h1>
+
+  <h2>Same Class - Free</h2>
+  <% categories.sameClassFree.forEach(t => { %>
+    <form action="/exchange/teachers/<%= slot._id %>" method="POST" style="display:inline;">
+      <input type="hidden" name="selectedTeacherId" value="<%= t._id %>">
+      <input type="hidden" name="type" value="simple">
+      <button type="submit"><%= t.username %></button>
+    </form>
+  <% }) %>
+
+  <h2>Same Class - Busy</h2>
+<% categories.sameClassBusy.forEach(t => { %>
+  <a href="/exchange/swap/<%= slot._id %>?teacherId=<%= t._id %>" style="color:red;">
+    <%= t.username %>
+  </a><br>
+<% }) %>
+
+  <h2>Different Class - Free</h2>
+  <% categories.diffClassFree.forEach(t => { %>
+    <form action="/exchange/teachers/<%= slot._id %>" method="POST" style="display:inline;">
+      <input type="hidden" name="selectedTeacherId" value="<%= t._id %>">
+      <input type="hidden" name="type" value="simple">
+      <button type="submit"><%= t.username %></button>
+    </form>
+  <% }) %>
+
+  <h2>Different Class - Busy</h2>
+<% categories.diffClassBusy.forEach(t => { %>
+  <a href="/exchange/swap/<%= slot._id %>?teacherId=<%= t._id %>" style="color:red;">
+    <%= t.username %>
+  </a><br>
+<% }) %>
+</body>
+</html>

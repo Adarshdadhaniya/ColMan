@@ -1,0 +1,41 @@
+<h2>Exchange Requests</h2>
+
+<h3>Received</h3>
+<% if (received.length === 0) { %>
+  <p>No requests received.</p>
+<% } else { %>
+  <ul>
+    <% received.forEach(r => { %>
+      <li>
+        From: <%= r.sender.username %> — Type: <%= r.type %> — Slot: <%= r.timeSlot %> — <%= r.classGroup %> — Status: <%= r.status %>
+        <% if (r.date) { %>
+          — Date: <%= r.date.toLocaleDateString() %> — Day: <%= r.day %>
+        <% } %>
+        <% if (r.status === 'pending') { %>
+          <form style="display:inline" method="POST" action="/exchange/requests/<%= r._id %>/accept">
+            <button class="btn btn-sm">Accept</button>
+          </form>
+          <form style="display:inline" method="POST" action="/exchange/requests/<%= r._id %>/reject">
+            <button class="btn btn-sm">Reject</button>
+          </form>
+        <% } %>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<h3>Sent</h3>
+<% if (sent.length === 0) { %>
+  <p>No sent requests.</p>
+<% } else { %>
+  <ul>
+    <% sent.forEach(r => { %>
+      <li>
+        To: <%= r.receiver.username %> — Type: <%= r.type %> — Slot: <%= r.timeSlot %> — <%= r.classGroup %> — Status: <%= r.status %>
+        <% if (r.date) { %>
+          — Date: <%= r.date.toLocaleDateString() %> — Day: <%= r.day %>
+        <% } %>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>
