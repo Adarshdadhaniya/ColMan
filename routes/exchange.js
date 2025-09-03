@@ -1,30 +1,29 @@
+// routes/exchange.js
 const express = require("express");
 const router = express.Router();
 const exchangeController = require("../controllers/exchangeController");
 const { isLoggedIn } = require("../middlewear");
 
-// Zeroth route: select date
 router.get("/date", isLoggedIn, exchangeController.getChooseDate);
 router.post("/date", isLoggedIn, exchangeController.postChooseDate);
 
-// First route: select one of your own slots for that date
 router.get("/select-slot", isLoggedIn, exchangeController.getSelectSlot);
+router.post("/select-slot", isLoggedIn, exchangeController.postSelectSlot);
 
-// Second route: list teachers categorized
 router.get("/choose-teacher", isLoggedIn, exchangeController.getChooseTeacher);
+router.post("/choose-teacher", isLoggedIn, exchangeController.postChooseTeacher);
 
-// If target is free -> create request directly
-router.post("/request/send", isLoggedIn, exchangeController.postSendRequest);
-
-// If target is busy and same-group -> show options
 router.get("/busy-options", isLoggedIn, exchangeController.getBusyOptions);
+router.post("/busy-options", isLoggedIn, exchangeController.postBusyOptions);
 
-// Show swap candidate slots from the other teacher
-router.get("/select-swap-slot", isLoggedIn, exchangeController.getSelectSwapSlot);
+router.get("/choose-subject", isLoggedIn, exchangeController.getChooseSubject);
+router.post("/choose-subject", isLoggedIn, exchangeController.postChooseSubject);
 
-// Accept/reject/manage requests
+router.post("/send-request", isLoggedIn, exchangeController.postSendRequest);
+
 router.get("/requests", isLoggedIn, exchangeController.getRequests);
-router.post("/requests/:id/accept", isLoggedIn, exchangeController.postAcceptRequest);
-router.post("/requests/:id/reject", isLoggedIn, exchangeController.postRejectRequest);
+router.post("/accept/:id", isLoggedIn, exchangeController.postAcceptRequest);
+router.post("/decline/:id", isLoggedIn, exchangeController.postDeclineRequest);
 
 module.exports = router;
+ 

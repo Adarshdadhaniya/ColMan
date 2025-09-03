@@ -1,18 +1,20 @@
+<h2>Teacher's Busy Slots</h2>
 
-<h2>Options when target teacher (<%= targetTeacher.username %>) is busy</h2>
-<p>Initiator slot: <%= initiatorSlot.timeSlot %> — <%= initiatorSlot.classGroup %> — <%= initiatorSlot.subject %></p>
-<p>Date: <%= new Date(date).toDateString() %></p>
-
-<form method="POST" action="/exchange/request/send">
-  <input type="hidden" name="initiatingSlotId" value="<%= initiatorSlot._id %>" />
-  <input type="hidden" name="receiverId" value="<%= targetTeacher._id %>" />
-  <input type="hidden" name="date" value="<%= date %>" />
-  <input type="hidden" name="type" value="cover" />
-  <button class="btn">Ask them to cover my slot (they teach same classGroup)</button>
-</form>
-
-<hr />
-<p>OR — swap one of their slots with yours</p>
-<a href="/exchange/select-swap-slot?slotId=<%= initiatorSlot._id %>&targetTeacherId=<%= targetTeacher._id %>&date=<%= date %>">Choose slot of <%= targetTeacher.username %> to swap</a>
-
-
+<% if (busySlots.length === 0) { %>
+  <p>No busy slots found for this teacher.</p>
+<% } else { %>
+  <ul>
+    <% busySlots.forEach(s => { %>
+      <li>
+        <%= s.day %> - <%= s.timeSlot %> - <%= s.subject %>
+        <form action="/exchange/busy-options" method="POST" style="display:inline;">
+          <input type="hidden" name="slotId" value="<%= slotId %>">
+          <input type="hidden" name="teacherId" value="<%= teacherId %>">
+          <input type="hidden" name="busySlotId" value="<%= s._id %>">
+          <input type="hidden" name="date" value="<%= date %>">
+          <button type="submit">Select</button>
+        </form>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>

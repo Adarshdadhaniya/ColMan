@@ -1,28 +1,25 @@
+// controllers/exchangeController.js
 const TimetableSlot = require("../models/TimetableSlot");
-const ExchangeSlot = require("../models/ExchangeSlot");
-const ExchangeRequest = require("../models/ExchangeRequest");
 const User = require("../models/User");
+const ExchangeRequest = require("../models/ExchangeRequest");
+const ExchangeSlot = require("../models/ExchangeSlot");
+const dayNameFromDate = require("../utils/dayNameFromDate");
+const fs = require("fs");
 
-// util: convert Date -> day name string (e.g. 'monday')
-function dayNameFromDate(date) {
-  const d = new Date(date);
-  return d.toLocaleDateString("en-US", { weekday: "long" }).toLowerCase();
+async function getTeacherCache() {
+  return JSON.parse(fs.readFileSync("teacherCache.json", "utf8"));
 }
 
-module.exports = { 
-  // Zeroth route
+module.exports = {
   getChooseDate: (req, res) => {
-    res.render("exchange/choose_date");
+    res.render("exchange/chooseDate");
   },
 
   postChooseDate: (req, res) => {
     const { date } = req.body;
-    if (!date) return res.status(400).send("date required");
-    // redirect with date as query
-    res.redirect(`/exchange/select-slot?date=${encodeURIComponent(date)}`);
+    res.redirect(`/exchange/select-slot?date=${date}`);
   },
 
- 
   getSelectSlot: async (req, res) => {
     try {
       const userId = req.user._id;
@@ -32,279 +29,329 @@ module.exports = {
 
       // Convert date string to Date object and get day name
       const date = new Date(dateStr);
-      const day = dayNameFromDate(dateStr);
-      const dayn=dayFormatted = day.charAt(0).toUpperCase() + day.slice(1);
+      let day = dayNameFromDate(dateStr);
+      day = day.charAt(0).toUpperCase() + day.slice(1); // "Monday", "Tuesday", etc.
+
       console.log("Looking for slots on", date, "which is a", day);
+
       // Find all slots: recurring (date:null && day matches) OR one-time (date matches exactly)
       const slots = await TimetableSlot.find({
         teacher: userId,
         $or: [
-          { date: date },             // one-time slot for that exact date
-          { day: dayn },   // recurring weekly slot
+          { date: date },      // one-time slot for that exact date
+          { day: day },        // recurring weekly slot
         ],
       }).lean();
+
       console.log("Found slots:", slots);
-      res.render("exchange/select_slot", { slots, date: dateStr });
+
+      res.render("exchange/select_slot", { slots, date: dateStr, user: req.user });
     } catch (err) {
       console.error("Error fetching slots:", err);
       res.status(500).send("Server Error");
     }
   },
 
+  postSelectSlot: async (req, res) => {
+    const { slotId, date } = req.body;
+    res.redirect(`/exchange/choose-teacher?slotId=${slotId}&date=${date}`);
+  },
+
+  getChooseTeacher: async (req, res) => {
+    try {
+      const { slotId, date } = req.query;
+      if (!slotId || !date) return res.redirect("/exchange/date");
+
+      const initiatorSlot = await TimetableSlot.findById(slotId).lean();
+      if (!initiatorSlot) return res.status(404).send("Slot not found");
+
+      // Convert date string to Date object and day name
+      const dateObj = new Date(date);
+      let day = dayNameFromDate(date);
+      day = day.charAt(0).toUpperCase() + day.slice(1); // "Monday"
+
+      // Get all teachers in the college except the initiator
+      const allTeachers = await User.find({
+        collegeId: req.user.collegeId,
+        role: "teacher",
+        _id: { $ne: req.user._id },
+      }).lean();
+
+      // Fetch all slots on that day for all teachers
+      const slotsOnDate = await TimetableSlot.find({
+        $or: [
+          { date: dateObj },
+          { day: day },
+        ],
+      }).lean();
+
+      // Categorize teachers
+      const categorizedTeachers = {
+        sameClassGroupFree: [],
+        sameClassGroupBusy: [],
+        differentClassGroupFree: [],
+        differentClassGroupBusy: [],
+      };
+
+      allTeachers.forEach((t) => {
+        const sharesClassGroup = t.classGroup.includes(initiatorSlot.classGroup);
+
+        // Check if teacher is busy in any slot on that day
+        const isBusy = slotsOnDate.some(
+          (s) => s.teacher.toString() === t._id.toString() && s.timeSlot === initiatorSlot.timeSlot
+        );
+
+        if (sharesClassGroup && !isBusy) categorizedTeachers.sameClassGroupFree.push(t);
+        else if (sharesClassGroup && isBusy) categorizedTeachers.sameClassGroupBusy.push(t);
+        else if (!sharesClassGroup && !isBusy) categorizedTeachers.differentClassGroupFree.push(t);
+        else categorizedTeachers.differentClassGroupBusy.push(t);
+      });
+
+      res.render("exchange/busy_options", {
+        slot: initiatorSlot,
+        date,
+        teachers: categorizedTeachers,
+      });
+    } catch (err) {
+      console.error("Error in getChooseTeacher:", err);
+      res.status(500).send("Server Error");
+    }
+  },
 
 getChooseTeacher: async (req, res) => {
-  const userId = req.user._id;
-  const { slotId, date } = req.query;
-  if (!slotId || !date) return res.redirect("/exchange/date");
+  try {
+    const userId = req.user._id;
+    const { slotId, date } = req.query;
+    if (!slotId || !date) return res.redirect("/exchange/date");
 
-  const initiatorSlot = await TimetableSlot.findById(slotId).lean();
-  if (!initiatorSlot) return res.status(404).send("slot not found");
+    const initiatorSlot = await TimetableSlot.findById(slotId).lean();
+    if (!initiatorSlot) return res.status(404).send("Slot not found");
 
-  const day = dayNameFromDate(date);
+    // get day name from date
+    const day = dayNameFromDate(date);
 
-  // get all teachers excluding initiator
-  const allTeachers = await User.find({
-    _id: { $ne: userId },
-    role: "teacher"
-  }).lean();
+    // get all teachers excluding the initiator
+    const allTeachers = await User.find({ _id: { $ne: userId }, role: "teacher" }).lean();
 
-  // categories object (matching your EJS expectations)
-  const categories = {
-    sameClassFree: [],
-    sameClassBusy: [],
-    diffClassFree: [],
-    diffClassBusy: [],
-  };
+    // categories object
+    const categories = {
+      sameClassFree: [],
+      sameClassBusy: [],
+      diffClassFree: [],
+      diffClassBusy: [],
+    };
 
-  // loop through teachers and categorize
-  for (let t of allTeachers) {
-    // check if teacher is busy at that day + timeslot
-    const busySlot = await TimetableSlot.findOne({
-      teacher: t._id,
-      day: initiatorSlot.day,
-      timeSlot: initiatorSlot.timeSlot,
+    // get all busy slots for that day and timeSlot
+    const busySlots = await TimetableSlot.find({ day: initiatorSlot.day, timeSlot: initiatorSlot.timeSlot }).lean();
+    const busyTeacherIds = busySlots.map(s => s.teacher.toString());
+
+    // categorize teachers
+    allTeachers.forEach(t => {
+      const sharesClassGroup = Array.isArray(t.classGroup) && t.classGroup.includes(initiatorSlot.classGroup);
+      const isBusy = busyTeacherIds.includes(t._id.toString());
+
+      if (sharesClassGroup && !isBusy) categories.sameClassFree.push(t);
+      else if (sharesClassGroup && isBusy) categories.sameClassBusy.push({ teacher: t, slot: busySlots.find(s => s.teacher.toString() === t._id.toString()) });
+      else if (!sharesClassGroup && !isBusy) categories.diffClassFree.push(t);
+      else categories.diffClassBusy.push({ teacher: t, slot: busySlots.find(s => s.teacher.toString() === t._id.toString()) });
     });
 
-    if (t.classGroup.includes(initiatorSlot.classGroup)) {
-      if (busySlot) {
-        categories.sameClassBusy.push({ teacher: t, slot: busySlot });
-      } else {
-        categories.sameClassFree.push(t);
-      }
-    } else {
-      if (busySlot) {
-        categories.diffClassBusy.push({ teacher: t, slot: busySlot });
-      } else {
-        categories.diffClassFree.push(t);
-      }
-    }
+    // render EJS
+    res.render("exchange/choose_teacher", {
+      initiatorSlot,
+      date,
+      sameGroup_free: categories.sameClassFree,
+      sameGroup_busy: categories.sameClassBusy,
+      diffGroup_free: categories.diffClassFree,
+      diffGroup_busy: categories.diffClassBusy
+    });
+  } catch (err) {
+    console.error("Error in getChooseTeacher:", err);
+    res.status(500).send("Server error");
   }
+},
 
-  res.render("exchange/choose_teacher", {
-    initiatorSlot,
-    date,
-    sameGroup_free: categories.sameClassFree,
-    sameGroup_busy: categories.sameClassBusy,
-    diffGroup_free: categories.diffClassFree,
-    diffGroup_busy: categories.diffClassBusy
+  postChooseTeacher: async (req, res) => {
+    const { slotId, date, teacherId } = req.body;
+    const targetTeacher = await User.findById(teacherId).lean();
+   const day = dayNameFromDate(date); // e.g. "Monday"
+
+const busySlots = await TimetableSlot.find({
+  teacher: teacherId,
+  $or: [
+    { date: date },       // one-time slot
+    { date: null, day }   // recurring weekly slot
+  ]
+}).lean();
+
+    if (busySlots.length) {
+      res.redirect(`/exchange/busy-options?slotId=${slotId}&teacherId=${teacherId}&date=${date}`);
+    } else {
+      res.redirect(`/exchange/choose-subject?slotId=${slotId}&teacherId=${teacherId}&date=${date}`);
+    }
+  },
+
+  getBusyOptions: async (req, res) => {
+  const { slotId, teacherId, date } = req.query;
+
+  // find all slots where this teacher is busy on the chosen date
+  const busySlots = await TimetableSlot.find({
+    teacher: teacherId,
+    $or: [
+      { date },                        // one-time slot
+      { date: null, day: dayNameFromDate(date) } // recurring weekly slot
+    ]
+  }).lean();
+
+  res.render("exchange/busy_options", {
+    busySlots,
+    slotId,
+    teacherId,
+    date
   });
 },
 
-  // Third route: create request (for free or cover or swap) -- general send
-  postSendRequest: async (req, res) => {
-    /* Expected body:
-      senderId (from req.user), initiatingSlotId, receiverId, date,
-      type: 'free'|'swap'|'cover', targetSlotId (optional)
-    */
-    try {
-      const sender = req.user._id;
-      const { initiatingSlotId, receiverId, date, type, targetSlotId } = req.body;
-      if (!initiatingSlotId || !receiverId || !date || !type) return res.status(400).send("missing fields");
 
-      const initiatorSlot = await TimetableSlot.findById(initiatingSlotId).lean();
-      if (!initiatorSlot) return res.status(404).send("initiating slot not found");
+ postBusyOptions: async (req, res) => {
+  const { slotId, teacherId, busySlotId, date } = req.body;
 
-      const day = dayNameFromDate(date);
+  res.redirect(
+    `/exchange/choose-subject?slotId=${slotId}&teacherId=${teacherId}&busySlotId=${busySlotId}&date=${date}`
+  );
+},
 
-      const payload = {
-        collegeId: initiatorSlot.collegeId,
-        sender,
-        receiver: receiverId,
-        initiatingSlot: initiatorSlot._id,
-        date: new Date(date),
-        day,
-        timeSlot: initiatorSlot.timeSlot,
-        classGroup: initiatorSlot.classGroup,
-        room: initiatorSlot.room,
-        type,
-      };
+ getChooseSubject: async (req, res) => {
+  try {
+    const { slotId, teacherId, busySlotId, date } = req.query;
 
-      if (targetSlotId) payload.targetSlot = targetSlotId;
+    const slot = await TimetableSlot.findById(slotId).lean();       // initiator's slot
+    const target = await User.findById(teacherId).lean();           // other teacher
+    const busySlot = busySlotId ? await TimetableSlot.findById(busySlotId).lean() : null;
 
-      const request = new ExchangeRequest(payload);
-      await request.save();
+    let subjects = [];
 
-      // TODO: notify receiver in your app (email/socket/etc.)
-
-      res.redirect("/exchange/requests");
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("server error");
+    // If target teacher also teaches this classGroup → they must pick one of *their* subjects for it
+    if (slot.classGroup && Array.isArray(target.classGroup) && target.classGroup.includes(slot.classGroup)) {
+      // Assuming you store teacher’s subjects in `target.teaches`
+      subjects = target.teaches || [];
     }
+
+    res.render("exchange/chooseSubject", {
+      slot,          // initiator’s slot
+      target,        // target teacher
+      busySlot,      // the target teacher’s conflicting slot (null if free)
+      subjects,      // subjects they can pick (only filled if same classGroup)
+      date
+    });
+  } catch (err) {
+    console.error("Error in getChooseSubject:", err);
+    res.status(500).send("Server error");
+  }
+},
+
+
+  postChooseSubject: async (req, res) => {
+    const { slotId, teacherId, busySlotId, date, targetSubject } = req.body;
+    res.redirect(`/exchange/send-request?slotId=${slotId}&teacherId=${teacherId}&busySlotId=${busySlotId}&date=${date}&targetSubject=${targetSubject}`);
   },
 
-  // Fourth route helper: busy options page
-  getBusyOptions: async (req, res) => {
-    const { slotId, targetTeacherId, date } = req.query;
-    if (!slotId || !targetTeacherId || !date) return res.redirect("/exchange/date");
+  postSendRequest: async (req, res) => {
+    const { slotId, teacherId, busySlotId, date, targetSubject } = req.query;
+    const slot = await TimetableSlot.findById(slotId);
+    const receiver = await User.findById(teacherId);
 
-    const initiatorSlot = await TimetableSlot.findById(slotId).lean();
-    const targetTeacher = await User.findById(targetTeacherId).lean();
+    const type = busySlotId ? "swap" : "free";
 
-    // if target is busy at that timeslot we already know it. Show two options: cover or swap
-    res.render("exchange/busy_options", { initiatorSlot, targetTeacher, date });
-  },
-
-  // Fifth route: select swap slot from other teacher
-  getSelectSwapSlot: async (req, res) => {
-    const { slotId, targetTeacherId, date } = req.query;
-    if (!slotId || !targetTeacherId || !date) return res.redirect("/exchange/date");
-
-    const initiatorSlot = await TimetableSlot.findById(slotId).lean();
-    const targetTeacher = await User.findById(targetTeacherId).lean();
-
-    const day = dayNameFromDate(date);
-    const start = new Date(date);
-    start.setHours(0, 0, 0, 0);
-    const end = new Date(date);
-    end.setHours(23, 59, 59, 999);
-
-    const targetSlots = await TimetableSlot.find({ teacher: targetTeacherId }).lean();
-
-    const initiatorBusySlots = await TimetableSlot.find({
-      teacher: req.user._id,
-      $or: [ { date: null, day }, { date: { $gte: start, $lte: end } } ],
-    }).lean();
-    const busySet = new Set(initiatorBusySlots.map(s => `${s.day}::${s.timeSlot}`));
-
-    const candidateSlots = targetSlots.filter(s => {
-      const key = `${s.day}::${s.timeSlot}`;
-      return !busySet.has(key);
+    const exchangeRequest = new ExchangeRequest({
+      sender: req.user._id,
+      receiver: teacherId,
+      initiatingSlot: slotId,
+      targetSlot: busySlotId || undefined,
+      type,
+      initiatingSubject: slot.subject,
+      targetSubject: targetSubject || slot.subject,
+      dateA: date,
     });
 
-    res.render("exchange/select_swap_slot", { initiatorSlot, targetTeacher, date, candidateSlots });
+    await exchangeRequest.save();
+    res.redirect("/exchange/requests");
   },
 
-  // view requests (both sent and received)
   getRequests: async (req, res) => {
-    const userId = req.user._id;
-    const sent = await ExchangeRequest.find({ sender: userId }).populate('receiver initiatingSlot targetSlot').lean();
-    const received = await ExchangeRequest.find({ receiver: userId }).populate('sender initiatingSlot targetSlot').lean();
-
+    const sent = await ExchangeRequest.find({ sender: req.user._id }).populate('receiver initiatingSlot targetSlot').lean();
+    const received = await ExchangeRequest.find({ receiver: req.user._id }).populate('sender initiatingSlot targetSlot').lean();
     res.render("exchange/requests", { sent, received });
   },
+postAcceptRequest: async (req, res) => {
+  const { id } = req.params;
+  const request = await ExchangeRequest.findById(id)
+    .populate("initiatingSlot targetSlot")
+    .lean();
+  if (!request) return res.redirect("/exchange/requests");
 
-  // accept request -> create ExchangeSlot entries and update status
-  postAcceptRequest: async (req, res) => {
-    try {
-      const { id } = req.params;
-      const userId = String(req.user._id);
-      const request = await ExchangeRequest.findById(id).populate('initiatingSlot targetSlot').exec();
-      if (!request) return res.status(404).send('request not found');
-      if (String(request.receiver) !== userId) return res.status(403).send('not authorized');
+  const t1 = request.sender;
+  const t2 = request.receiver;
+  const isSwap = request.type === "swap";
+  const chosenGroup = request.chosenClassGroup;
 
-      if (request.status !== 'pending') return res.status(400).send('request already processed');
-
-      if (request.type === 'free' || request.type === 'cover') {
-        const initiator = request.initiatingSlot;
-        const receiver = request.receiver;
-
-        const recvSlot = new ExchangeSlot({
-          collegeId: initiator.collegeId,
-          classGroup: initiator.classGroup,
-          subject: initiator.subject,
-          teacher: receiver,
-          day: request.day,
-          date: request.date,
-          timeSlot: initiator.timeSlot,
-          room: initiator.room,
-          isExtra: false,
-        });
-
-        const freeSlot = new ExchangeSlot({
-          collegeId: initiator.collegeId,
-          classGroup: initiator.classGroup,
-          subject: 'FREE',
-          teacher: request.sender,
-          day: request.day,
-          date: request.date,
-          timeSlot: initiator.timeSlot,
-          room: 'N/A',
-          isExtra: false,
-        });
-
-        await recvSlot.save();
-        await freeSlot.save();
-
-      } else if (request.type === 'swap') {
-        const initiator = request.initiatingSlot;
-        const target = request.targetSlot;
-
-        if (!target) return res.status(400).send('missing target slot for swap');
-
-        const recvSlot = new ExchangeSlot({
-          collegeId: initiator.collegeId,
-          classGroup: initiator.classGroup,
-          subject: initiator.subject,
-          teacher: request.receiver,
-          day: request.day,
-          date: request.date,
-          timeSlot: initiator.timeSlot,
-          room: initiator.room,
-          isExtra: false,
-        });
-
-        const sendSlot = new ExchangeSlot({
-          collegeId: target.collegeId,
-          classGroup: target.classGroup,
-          subject: target.subject,
-          teacher: request.sender,
-          day: target.day,
-          date: target.date || request.date,
-          timeSlot: target.timeSlot,
-          room: target.room,
-          isExtra: false,
-        });
-
-        await recvSlot.save();
-        await sendSlot.save();
-      }
-
-      request.status = 'accepted';
-      await request.save();
-
-      res.redirect('/exchange/requests');
-    } catch (err) {
-      console.error(err);
-      res.status(500).send('server error');
+  // Handle t2 original slot: create FREE if necessary
+  if (isSwap) {
+    if (request.dateB) {
+      // Create FREE for t2 at dateB
+      await TimetableSlot.create({
+        teacher: t2,
+        classGroup: chosenGroup,
+        subject: "FREE",
+        day: dayNameFromDate(request.dateB),
+        timeSlot: request.initiatingSlot.timeSlot,
+        collegeId: request.initiatingSlot.collegeId,
+        room: request.initiatingSlot.room,
+      });
     }
-  },
+    // Create FREE for t2 at dateA if needed
+    await TimetableSlot.create({
+      teacher: t2,
+      classGroup: chosenGroup,
+      subject: "FREE",
+      day: dayNameFromDate(request.dateA),
+      timeSlot: request.initiatingSlot.timeSlot,
+      collegeId: request.initiatingSlot.collegeId,
+      room: request.initiatingSlot.room,
+    });
+  }
 
-  postRejectRequest: async (req, res) => {
-    try {
-      const { id } = req.params;
-      const userId = String(req.user._id);
-      const request = await ExchangeRequest.findById(id).exec();
-      if (!request) return res.status(404).send('request not found');
-      if (String(request.receiver) !== userId) return res.status(403).send('not authorized');
+  // Create ExchangeSlot entries for t2
+  await ExchangeSlot.create({
+    teacher: t2,
+    classGroup: request.initiatingSlot.classGroup,
+    subject: request.targetSubject || request.initiatingSlot.subject,
+    date: request.dateA,
+    timeSlot: request.initiatingSlot.timeSlot,
+    type: isSwap ? "swap" : "cover",
+  });
 
-      request.status = 'rejected';
-      await request.save();
+  // For swap with two dates, create t1's ExchangeSlot at dateB
+  if (isSwap && request.dateB) {
+    await ExchangeSlot.create({
+      teacher: t1,
+      classGroup: chosenGroup,
+      subject: request.initiatingSubject,
+      date: request.dateB,
+      timeSlot: request.targetSlot
+        ? request.targetSlot.timeSlot
+        : request.initiatingSlot.timeSlot,
+      type: "swap",
+    });
+  }
 
-      res.redirect('/exchange/requests');
-    } catch (err) {
-      console.error(err);
-      res.status(500).send('server error');
-    }
-  },
+  // Update request status
+  await ExchangeRequest.findByIdAndUpdate(id, { status: "accepted" });
+
+  res.redirect("/exchange/requests");
+},
+
+  postDeclineRequest: async (req, res) => {
+    await ExchangeRequest.findByIdAndUpdate(req.params.id, { status: "declined" });
+    res.redirect("/exchange/requests");
+  }
 };

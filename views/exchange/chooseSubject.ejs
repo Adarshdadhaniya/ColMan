@@ -1,0 +1,35 @@
+<h2>Choose Subject</h2>
+
+<p>Initiator Slot: <%= slot.subject %> (<%= slot.classGroup %>)</p>
+
+<% if (busySlot) { %>
+  <p>Target teacher is already busy with: <%= busySlot.subject %> (<%= busySlot.classGroup %>)</p>
+<% } %>
+
+<% if (subjects.length) { %>
+  <form action="/exchange/choose-subject" method="POST">
+    <input type="hidden" name="slotId" value="<%= slot._id %>">
+    <input type="hidden" name="teacherId" value="<%= target._id %>">
+    <input type="hidden" name="busySlotId" value="<%= busySlot ? busySlot._id : '' %>">
+    <input type="hidden" name="date" value="<%= date %>">
+
+    <label for="targetSubject">Select subject:</label>
+    <select name="targetSubject" required>
+      <% subjects.forEach(s => { %>
+        <option value="<%= s %>"><%= s %></option>
+      <% }) %>
+    </select>
+
+    <button type="submit">Confirm</button>
+  </form>
+<% } else { %>
+  <p>No subject selection required for this teacher.</p>
+  <form action="/exchange/choose-subject" method="POST">
+    <input type="hidden" name="slotId" value="<%= slot._id %>">
+    <input type="hidden" name="teacherId" value="<%= target._id %>">
+    <input type="hidden" name="busySlotId" value="<%= busySlot ? busySlot._id : '' %>">
+    <input type="hidden" name="date" value="<%= date %>">
+    <input type="hidden" name="targetSubject" value="<%= slot.subject %>">
+    <button type="submit">Confirm</button>
+  </form>
+<% } %>

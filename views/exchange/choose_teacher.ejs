@@ -1,60 +1,61 @@
-<%- include('../includes/navbar') %>
-<h2>Choose teacher to request exchange for slot: <%= initiatorSlot.timeSlot %> - <%= initiatorSlot.classGroup %></h2>
-<p>Date: <%= new Date(date).toDateString() %></p>
+<h2>Choose Teacher</h2>
 
-<h3>Same classGroup — Free</h3>
-<% if (sameGroup_free.length===0) { %> <p>— none —</p> <% } %>
+<h3>Same ClassGroup & Free</h3>
 <ul>
   <% sameGroup_free.forEach(t => { %>
     <li>
-      <%= t.username %>
-      <form style="display:inline" method="POST" action="/exchange/request/send">
-        <input type="hidden" name="initiatingSlotId" value="<%= initiatorSlot._id %>" />
-        <input type="hidden" name="receiverId" value="<%= t._id %>" />
-        <input type="hidden" name="date" value="<%= date %>" />
-        <input type="hidden" name="type" value="free" />
-        <button class="btn btn-sm">Request</button>
+      <%= t.username %> 
+      <form action="/exchange/choose-teacher" method="POST" style="display:inline;">
+        <input type="hidden" name="slotId" value="<%= initiatorSlot._id %>">
+        <input type="hidden" name="teacherId" value="<%= t._id %>">
+        <input type="hidden" name="date" value="<%= date %>">
+        <button type="submit">Select</button>
       </form>
     </li>
   <% }) %>
 </ul>
 
-<h3>Same classGroup — Busy</h3>
-<% if (sameGroup_busy.length===0) { %> <p>— none —</p> <% } %>
+<h3>Same ClassGroup & Busy</h3>
 <ul>
-  <% sameGroup_busy.forEach(item => { %>
+  <% sameGroup_busy.forEach(obj => { %>
     <li>
-      <%= item.teacher.username %> — busy in <%= item.slot.timeSlot %>
-      <a href="/exchange/busy-options?slotId=<%= initiatorSlot._id %>&targetTeacherId=<%= item.teacher._id %>&date=<%= date %>">Options</a>
+      <%= obj.teacher.username %> (Busy)
+      <form action="/exchange/choose-teacher" method="POST" style="display:inline;">
+        <input type="hidden" name="slotId" value="<%= initiatorSlot._id %>">
+        <input type="hidden" name="teacherId" value="<%= obj.teacher._id %>">
+        <input type="hidden" name="date" value="<%= date %>">
+        <button type="submit" >Busy</button>
+      </form>
     </li>
   <% }) %>
 </ul>
 
-<h3>Different classGroup — Free</h3>
-<% if (diffGroup_free.length===0) { %> <p>— none —</p> <% } %>
+<h3>Different ClassGroup & Free</h3>
 <ul>
   <% diffGroup_free.forEach(t => { %>
     <li>
-      <%= t.username %>
-      <form style="display:inline" method="POST" action="/exchange/request/send">
-        <input type="hidden" name="initiatingSlotId" value="<%= initiatorSlot._id %>" />
-        <input type="hidden" name="receiverId" value="<%= t._id %>" />
-        <input type="hidden" name="date" value="<%= date %>" />
-        <input type="hidden" name="type" value="free" />
-        <button class="btn btn-sm">Request</button>
+      <%= t.username %> 
+      <form action="/exchange/choose-teacher" method="POST" style="display:inline;">
+        <input type="hidden" name="slotId" value="<%= initiatorSlot._id %>">
+        <input type="hidden" name="teacherId" value="<%= t._id %>">
+        <input type="hidden" name="date" value="<%= date %>">
+        <button type="submit">Select</button>
       </form>
     </li>
   <% }) %>
 </ul>
 
-<h3>Different classGroup — Busy</h3>
-<% if (diffGroup_busy.length===0) { %> <p>— none —</p> <% } %>
+<h3>Different ClassGroup & Busy</h3>
 <ul>
-  <% diffGroup_busy.forEach(item => { %>
+  <% diffGroup_busy.forEach(obj => { %>
     <li>
-      <%= item.teacher.username %> — busy in <%= item.slot.timeSlot %>
-      <a href="/exchange/busy-options?slotId=<%= initiatorSlot._id %>&targetTeacherId=<%= item.teacher._id %>&date=<%= date %>">Options</a>
+      <%= obj.teacher.username %> (Busy)
+      <form action="/exchange/choose-teacher" method="POST" style="display:inline;">
+        <input type="hidden" name="slotId" value="<%= initiatorSlot._id %>">
+        <input type="hidden" name="teacherId" value="<%= obj.teacher._id %>">
+        <input type="hidden" name="date" value="<%= date %>">
+        <button type="submit" >Busy</button>
+      </form>
     </li>
   <% }) %>
 </ul>
-

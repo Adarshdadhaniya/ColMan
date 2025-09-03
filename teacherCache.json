@@ -1,0 +1,1747 @@
+[
+  {
+    "_id": "68b5336417dfe312e641011a",
+    "classGroups": [
+      "BBA-3",
+      "BCA-2"
+    ],
+    "subjects": [
+      "Stats",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410118",
+    "classGroups": [
+      "BBA-3",
+      "BCA-3"
+    ],
+    "subjects": [
+      "Physics",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641011c",
+    "classGroups": [
+      "BCA-3",
+      "BBA-2"
+    ],
+    "subjects": [
+      "CS101",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410124",
+    "classGroups": [
+      "BBA-1",
+      "BCA-3"
+    ],
+    "subjects": [
+      "Management",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641012e",
+    "classGroups": [
+      "BCA-3",
+      "BBA-3"
+    ],
+    "subjects": [
+      "Stats",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410128",
+    "classGroups": [
+      "BCA-3",
+      "BBA-1"
+    ],
+    "subjects": [
+      "Chemistry",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410132",
+    "classGroups": [
+      "BCA-3",
+      "BBA-1"
+    ],
+    "subjects": [
+      "CS101",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641013a",
+    "classGroups": [
+      "BCA-3",
+      "BCA-2"
+    ],
+    "subjects": [
+      "Chemistry",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641013c",
+    "classGroups": [
+      "BCA-1",
+      "BBA-2"
+    ],
+    "subjects": [
+      "Stats",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410140",
+    "classGroups": [
+      "BBA-3",
+      "BBA-2"
+    ],
+    "subjects": [
+      "Stats",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410142",
+    "classGroups": [
+      "BCA-2",
+      "BCA-3"
+    ],
+    "subjects": [
+      "Math",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410148",
+    "classGroups": [
+      "BCA-3",
+      "BBA-3"
+    ],
+    "subjects": [
+      "Management",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641014a",
+    "classGroups": [
+      "BCA-2"
+    ],
+    "subjects": [
+      "Management",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641014c",
+    "classGroups": [
+      "BCA-2"
+    ],
+    "subjects": [
+      "Math",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641014e",
+    "classGroups": [
+      "BBA-2"
+    ],
+    "subjects": [
+      "CS101",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641011e",
+    "classGroups": [
+      "BCA-1",
+      "BBA-3"
+    ],
+    "subjects": [
+      "Math",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410122",
+    "classGroups": [
+      "BBA-1",
+      "BBA-3"
+    ],
+    "subjects": [
+      "Math",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410120",
+    "classGroups": [
+      "BBA-3",
+      "BCA-1"
+    ],
+    "subjects": [
+      "Math",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410126",
+    "classGroups": [
+      "BBA-2",
+      "BBA-3"
+    ],
+    "subjects": [
+      "Stats",
+      "Physics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641012c",
+    "classGroups": [
+      "BCA-2",
+      "BCA-1"
+    ],
+    "subjects": [
+      "Economics",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410130",
+    "classGroups": [
+      "BBA-2",
+      "BCA-2"
+    ],
+    "subjects": [
+      "Stats",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641012a",
+    "classGroups": [
+      "BCA-1",
+      "BBA-2"
+    ],
+    "subjects": [
+      "Math",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410134",
+    "classGroups": [
+      "BBA-3",
+      "BBA-1"
+    ],
+    "subjects": [
+      "Stats",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410136",
+    "classGroups": [
+      "BCA-3",
+      "BBA-2"
+    ],
+    "subjects": [
+      "English",
+      "Physics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410138",
+    "classGroups": [
+      "BCA-2",
+      "BBA-3"
+    ],
+    "subjects": [
+      "CS101",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641013e",
+    "classGroups": [
+      "BBA-3",
+      "BCA-3"
+    ],
+    "subjects": [
+      "Physics",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410144",
+    "classGroups": [
+      "BCA-1",
+      "BBA-3"
+    ],
+    "subjects": [
+      "Stats",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410150",
+    "classGroups": [
+      "BBA-1"
+    ],
+    "subjects": [
+      "Stats",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410152",
+    "classGroups": [
+      "BBA-1",
+      "BCA-1"
+    ],
+    "subjects": [
+      "Stats",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410146",
+    "classGroups": [
+      "BBA-3",
+      "BBA-1"
+    ],
+    "subjects": [
+      "Chemistry",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410154",
+    "classGroups": [
+      "BBA-1"
+    ],
+    "subjects": [
+      "Economics",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410156",
+    "classGroups": [
+      "BCA-3",
+      "BBA-3"
+    ],
+    "subjects": [
+      "CS101",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641015a",
+    "classGroups": [
+      "BCA-2"
+    ],
+    "subjects": [
+      "CS101",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410158",
+    "classGroups": [
+      "BBA-2",
+      "BCA-2"
+    ],
+    "subjects": [
+      "Economics",
+      "Physics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641015c",
+    "classGroups": [
+      "BCA-2"
+    ],
+    "subjects": [
+      "Management",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641015e",
+    "classGroups": [
+      "BCA-1",
+      "BCA-3"
+    ],
+    "subjects": [
+      "English",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410160",
+    "classGroups": [
+      "BCA-3"
+    ],
+    "subjects": [
+      "Physics",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410162",
+    "classGroups": [
+      "BCA-1",
+      "BCA-3"
+    ],
+    "subjects": [
+      "Chemistry",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410164",
+    "classGroups": [
+      "BCA-2"
+    ],
+    "subjects": [
+      "CS101",
+      "Physics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410166",
+    "classGroups": [
+      "BBA-2",
+      "BCA-2"
+    ],
+    "subjects": [
+      "English",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641016a",
+    "classGroups": [
+      "BBA-2",
+      "BBA-1"
+    ],
+    "subjects": [
+      "English",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410168",
+    "classGroups": [
+      "BBA-1"
+    ],
+    "subjects": [
+      "Math",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410170",
+    "classGroups": [
+      "BBA-1",
+      "BBA-2"
+    ],
+    "subjects": [
+      "Physics",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410172",
+    "classGroups": [
+      "BBA-1"
+    ],
+    "subjects": [
+      "Chemistry",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410178",
+    "classGroups": [
+      "BCA-1"
+    ],
+    "subjects": [
+      "Management",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641017a",
+    "classGroups": [
+      "BCA-1"
+    ],
+    "subjects": [
+      "Economics",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641017c",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641016c",
+    "classGroups": [
+      "BBA-2",
+      "BCA-2"
+    ],
+    "subjects": [
+      "Physics",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101ba",
+    "classGroups": [],
+    "subjects": [
+      "Math",
+      "Physics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641016e",
+    "classGroups": [],
+    "subjects": [
+      "Economics",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410174",
+    "classGroups": [
+      "BBA-1"
+    ],
+    "subjects": [
+      "Chemistry",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641017e",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410180",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410182",
+    "classGroups": [
+      "BCA-1"
+    ],
+    "subjects": [
+      "Chemistry",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410184",
+    "classGroups": [
+      "BBA-2"
+    ],
+    "subjects": [
+      "Chemistry",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410186",
+    "classGroups": [
+      "BBA-2"
+    ],
+    "subjects": [
+      "Physics",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410188",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641018c",
+    "classGroups": [
+      "BCA-1"
+    ],
+    "subjects": [
+      "Chemistry",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641018a",
+    "classGroups": [],
+    "subjects": [
+      "Economics",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641018e",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410190",
+    "classGroups": [
+      "BCA-1"
+    ],
+    "subjects": [
+      "Math",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410192",
+    "classGroups": [],
+    "subjects": [
+      "Math",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410194",
+    "classGroups": [],
+    "subjects": [
+      "Economics",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410196",
+    "classGroups": [],
+    "subjects": [
+      "Stats",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410198",
+    "classGroups": [],
+    "subjects": [
+      "Economics",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641019a",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641019c",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "Physics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641019e",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101a0",
+    "classGroups": [
+      "BCA-2",
+      "BBA-1"
+    ],
+    "subjects": [
+      "Physics",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101a2",
+    "classGroups": [],
+    "subjects": [
+      "Physics",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101a4",
+    "classGroups": [],
+    "subjects": [
+      "Physics",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101a6",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "Physics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101a8",
+    "classGroups": [],
+    "subjects": [
+      "Physics",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101aa",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101ac",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101ae",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101b0",
+    "classGroups": [],
+    "subjects": [
+      "Economics",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101b2",
+    "classGroups": [],
+    "subjects": [
+      "Math",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101b4",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101b6",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101b8",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101bc",
+    "classGroups": [],
+    "subjects": [
+      "Math",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101be",
+    "classGroups": [],
+    "subjects": [
+      "Economics",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101e8",
+    "classGroups": [],
+    "subjects": [
+      "Economics",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641020c",
+    "classGroups": [],
+    "subjects": [
+      "Economics",
+      "Physics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101c0",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101c2",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101c4",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "Physics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101c6",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101c8",
+    "classGroups": [],
+    "subjects": [
+      "Math",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101ce",
+    "classGroups": [],
+    "subjects": [
+      "Stats",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101cc",
+    "classGroups": [],
+    "subjects": [
+      "Math",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101d0",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "Physics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101d2",
+    "classGroups": [],
+    "subjects": [
+      "Math",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101d4",
+    "classGroups": [],
+    "subjects": [
+      "Physics",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101d6",
+    "classGroups": [],
+    "subjects": [
+      "Physics",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101da",
+    "classGroups": [],
+    "subjects": [
+      "Stats",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101d8",
+    "classGroups": [],
+    "subjects": [
+      "Math",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101dc",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "Physics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101de",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101e0",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101e2",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101e4",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101e6",
+    "classGroups": [],
+    "subjects": [
+      "Math",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101ea",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101ec",
+    "classGroups": [],
+    "subjects": [
+      "Math",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101ee",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101f0",
+    "classGroups": [],
+    "subjects": [
+      "Stats",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101f2",
+    "classGroups": [],
+    "subjects": [
+      "Economics",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101f4",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Physics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101f6",
+    "classGroups": [],
+    "subjects": [
+      "Physics",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101f8",
+    "classGroups": [],
+    "subjects": [
+      "Stats",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101fa",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101fc",
+    "classGroups": [
+      "BCA-1"
+    ],
+    "subjects": [
+      "Stats",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101fe",
+    "classGroups": [],
+    "subjects": [
+      "Physics",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410200",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410202",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410204",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410206",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410208",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641020a",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410212",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410176",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410218",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410224",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410228",
+    "classGroups": [],
+    "subjects": [
+      "Math",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641022a",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641022c",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410248",
+    "classGroups": [],
+    "subjects": [
+      "Economics",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641020e",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410214",
+    "classGroups": [],
+    "subjects": [
+      "Economics",
+      "Physics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410216",
+    "classGroups": [],
+    "subjects": [
+      "Math",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410210",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641021a",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641021e",
+    "classGroups": [],
+    "subjects": [
+      "Physics",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410220",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "Physics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410222",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410226",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641022e",
+    "classGroups": [],
+    "subjects": [
+      "Economics",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410230",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410232",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410234",
+    "classGroups": [],
+    "subjects": [
+      "Physics",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410236",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410238",
+    "classGroups": [],
+    "subjects": [
+      "Economics",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641023a",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641023c",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641023e",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410240",
+    "classGroups": [],
+    "subjects": [
+      "Economics",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410242",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641024a",
+    "classGroups": [],
+    "subjects": [
+      "Math",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410246",
+    "classGroups": [],
+    "subjects": [
+      "Stats",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410244",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641024c",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641024e",
+    "classGroups": [],
+    "subjects": [
+      "Economics",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410252",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410250",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410254",
+    "classGroups": [],
+    "subjects": [
+      "Physics",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410256",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410258",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641025a",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641025c",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641025e",
+    "classGroups": [],
+    "subjects": [
+      "Economics",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410260",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410262",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Physics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410264",
+    "classGroups": [],
+    "subjects": [
+      "Physics",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410266",
+    "classGroups": [],
+    "subjects": [
+      "Economics",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410268",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Physics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64101ca",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641026a",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641026c",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641026e",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "English"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410270",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "Physics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410272",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410274",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410278",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641027e",
+    "classGroups": [],
+    "subjects": [
+      "Math",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641027a",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641027c",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410280",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410282",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "Economics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410284",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410286",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410288",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641028a",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641028c",
+    "classGroups": [],
+    "subjects": [
+      "Physics",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641028e",
+    "classGroups": [],
+    "subjects": [
+      "Physics",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410290",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410292",
+    "classGroups": [],
+    "subjects": [
+      "Chemistry",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410294",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410298",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410296",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Physics"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641029a",
+    "classGroups": [],
+    "subjects": [
+      "CS101",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641029c",
+    "classGroups": [],
+    "subjects": [
+      "Physics",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641029e",
+    "classGroups": [],
+    "subjects": [
+      "Math",
+      "Chemistry"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64102b0",
+    "classGroups": [],
+    "subjects": [
+      "English",
+      "Management"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64102b2",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641021c",
+    "classGroups": [],
+    "subjects": [
+      "Management",
+      "Stats"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e64102bc",
+    "classGroups": [],
+    "subjects": [
+      "Stats",
+      "CS101"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e6410276",
+    "classGroups": [],
+    "subjects": [
+      "Stats",
+      "Math"
+    ]
+  },
+  {
+    "_id": "68b5336417dfe312e641032a",
+    "classGroups": [],
+    "subjects": [
+      "Math",
+      "Management"
+    ]
+  }
+]

@@ -1,16 +1,44 @@
-<%- include('../includes/navbar') %>
-<h2>Your slots for <%= new Date(date).toDateString() %></h2>
+<h2>Select Your Slot on <%= date %></h2>
+
 <% if (slots.length === 0) { %>
-  <p>No slots found for selected day/date.</p>
+  <p>No available slots for this date.</p>
 <% } else { %>
-  <ul>
-    <% slots.forEach(slot => { %>
-      <li>
-        <strong><%= slot.timeSlot %></strong> - <%= slot.classGroup %> - <%= slot.subject %> - <%= slot.room %> - <%= slot.date ? new Date(slot.date).toDateString() : 'Recurring (' + slot.day + ')' %>
-        <a href="/exchange/choose-teacher?slotId=<%= slot._id %>&date=<%= encodeURIComponent(date) %>" class="btn">Choose teacher</a>
-      </li>
-    <% }) %>
-  </ul>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Time Slot</th>
+        <th>Class Group</th>
+        <th>Subject</th>
+        <th>Room</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% slots.forEach(slot => { %>
+        <tr>
+          <td><%= slot.timeSlot %></td>
+          <td><%= slot.classGroup %></td>
+          <td><%= slot.subject %></td>
+          <td><%= slot.room %></td>
+          <td>
+            <% if (!slot.teacher) { %>
+              Free
+            <% } else { %>
+              Busy
+            <% } %>
+          </td>
+          <td>
+            <% if (slot.teacher && slot.teacher.toString() === user._id.toString()) { %>
+              <form action="/exchange/choose-teacher" method="GET">
+                <input type="hidden" name="slotId" value="<%= slot._id %>">
+                <input type="hidden" name="date" value="<%= date %>">
+                <button type="submit">Exchange</button>
+              </form>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
 <% } %>
-
-

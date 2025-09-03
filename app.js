@@ -211,6 +211,10 @@ cron.schedule("0 1 * * *", async () => { // runs at 1:00 AM
 // syncTeacherClassGroups();
 
 
+// const cacheTeachers = require("./utils/teacherCache.js");
+// cacheTeachers(); // generate cache on server start
+
+
 
 app.listen(2000, () => {
   console.log("server is listening to port 2000");
