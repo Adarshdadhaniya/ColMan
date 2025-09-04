@@ -11,7 +11,7 @@ const exchangeSlotSchema = new Schema({
   timeSlot: { type: String, required: true },
   room: { type: String, required: true },
   isExtra: { type: Boolean, default: false },
-  exchangeType: { type: String, enum: ["free", "swap"], required: true },
+  exchangeType: { type: String, enum: ["free", "swap","cover"], required: true },
 });
 
 module.exports = mongoose.model("ExchangeSlot", exchangeSlotSchema);

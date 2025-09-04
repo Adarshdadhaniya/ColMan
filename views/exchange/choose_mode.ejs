@@ -1,0 +1,50 @@
+
+
+<div class="container mt-4">
+  <h3>Choose Exchange Mode</h3>
+
+  <form action="/exchange/choose-mode" method="POST">
+    <input type="hidden" name="slotId" value="<%= slot._id %>">
+    <input type="hidden" name="teacherId" value="<%= target._id %>">
+    <input type="hidden" name="busySlotId" value="<%= busySlotId || '' %>">
+    <input type="hidden" name="date" value="<%= date %>">
+
+    <div class="form-group mt-3">
+      <label><b>Select Mode:</b></label><br>
+      <div>
+        <input type="radio" id="cover" name="mode" value="cover" checked>
+        <label for="cover">Cover (one-way)</label>
+      </div>
+      <div>
+        <input type="radio" id="swap" name="mode" value="swap">
+        <label for="swap">Swap (two-way)</label>
+      </div>
+    </div>
+
+    <!-- DateB only shows if Swap is selected -->
+    <div class="form-group mt-3" id="dateB-container" style="display:none;">
+      <label for="dateB">Select Date for Swap (optional, defaults to dateA)</label>
+      <input type="date" class="form-control" id="dateB" name="dateB">
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Next</button>
+  </form>
+</div>
+
+<script>
+  const coverRadio = document.getElementById("cover");
+  const swapRadio = document.getElementById("swap");
+  const dateBContainer = document.getElementById("dateB-container");
+
+  function toggleDateB() {
+    if (swapRadio.checked) {
+      dateBContainer.style.display = "block";
+    } else {
+      dateBContainer.style.display = "none";
+    }
+  }
+
+  coverRadio.addEventListener("change", toggleDateB);
+  swapRadio.addEventListener("change", toggleDateB);
+</script>
+

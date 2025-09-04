@@ -1,0 +1,17 @@
+<h2>Choose Subject to Teach</h2>
+
+<p>You are asked to cover/swap for <b><%= request.sender.username %></b>.</p>
+<p>Class Group: <%= request.initiatingSlot.classGroup %></p>
+<p>Time Slot: <%= request.initiatingSlot.timeSlot %></p>
+
+<form action="/exchange/accept/<%= request._id %>" method="POST">
+  <label for="targetSubject">Select Subject:</label>
+  <select name="targetSubject" id="targetSubject" required>
+    <% subjects.forEach(sub => { %>
+      <option value="<%= sub %>"><%= sub %></option>
+    <% }) %>
+  </select>
+  <input type="hidden" name="dateB" value="<%= dateB %>">
+    <input type="hidden" name="mode" value="<%= mode %>">
+  <button type="submit">Confirm Subject</button>
+</form>

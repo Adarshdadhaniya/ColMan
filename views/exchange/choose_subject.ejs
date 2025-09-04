@@ -1,0 +1,25 @@
+<h2>Choose Subject for Exchange</h2>
+
+<form action="/exchange/send-request" method="POST">
+  <input type="hidden" name="slotId" value="<%= slot._id %>">
+  <input type="hidden" name="teacherId" value="<%= target._id %>">
+  <input type="hidden" name="busySlotId" value="<%= busySlot?._id || '' %>">
+  <input type="hidden" name="date" value="<%= date %>">
+  <input type="hidden" name="dateB" value="<%= dateB || '' %>">
+  <input type="hidden" name="mode" value="<%= mode %>">
+
+  <% if (mode === 'cover' || mode === 'swap') { %>
+    <label for="targetSubject">Select subject for <%= target.name %> to teach:</label>
+    <select name="targetSubject" id="targetSubject" required>
+      <% if (subjects.length === 0) { %>
+        <option value="">No subjects available</option>
+      <% } else { %>
+        <% subjects.forEach(sub => { %>
+          <option value="<%= sub %>"><%= sub %></option>
+        <% }) %>
+      <% } %>
+    </select>
+  <% } %>
+
+  <button type="submit">Send Request</button>
+</form>

@@ -1,23 +1,69 @@
-<h2>Sent Requests</h2>
-<ul>
-  <% sent.forEach(r => { %>
-    <li><%= r.receiver.username %> - <%= r.type %> - <%= r.status %></li>
-  <% }) %>
-</ul>
+<h2>Exchange Requests</h2>
 
-<h2>Received Requests</h2>
-<ul>
-  <% received.forEach(r => { %>
-    <li>
-      <%= r.sender.username %> - <%= r.type %> - <%= r.status %>
-      <% if(r.status==="pending"){ %>
-        <form action="/exchange/accept/<%= r._id %>" method="POST">
-          <button>Accept</button>
-        </form>
-        <form action="/exchange/decline/<%= r._id %>" method="POST">
-          <button>Decline</button>
-        </form>
-      <% } %>
-    </li>
-  <% }) %>
-</ul>
+<h3>Sent Requests</h3>
+<% if (sent.length === 0) { %>
+  <p>No sent requests.</p>
+<% } else { %>
+  <ul>
+    <% sent.forEach(r => { %>
+      <li>
+        <strong><%= r.type.toUpperCase() %></strong>
+        request → <%= r.receiver.username %> <br>
+
+        <b>Your Slot:</b>
+        <%= r.initiatingSlot.day %> - <%= r.initiatingSlot.timeSlot %> -
+        <%= r.initiatingSlot.subject %> (<%= r.initiatingSlot.classGroup %>) <br>
+
+        <% if (r.type === "swap" && r.targetSlot) { %>
+          <b>Their Slot:</b>
+          <%= r.targetSlot.day %> - <%= r.targetSlot.timeSlot %> -
+          <%= r.targetSlot.subject %> (<%= r.targetSlot.classGroup %>) <br>
+        <% } else { %>
+          <b>Covering Subject:</b> <%= r.targetSubject %> <br>
+        <% } %>
+
+        Status: <%= r.status %>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<hr>
+
+<h3>Received Requests</h3>
+<% if (received.length === 0) { %>
+  <p>No received requests.</p>
+<% } else { %>
+  <ul>
+    <% received.forEach(r => { %>
+      <li>
+        <strong><%= r.type.toUpperCase() %></strong>
+        request from <%= r.sender.name %> <br>
+
+        <b>Their Slot:</b>
+        <%= r.initiatingSlot.day %> - <%= r.initiatingSlot.timeSlot %> -
+        <%= r.initiatingSlot.subject %> (<%= r.initiatingSlot.classGroup %>) <br>
+
+        <% if (r.type === "swap" && r.targetSlot) { %>
+          <b>Your Slot:</b>
+          <%= r.targetSlot.day %> - <%= r.targetSlot.timeSlot %> -
+          <%= r.targetSlot.subject %> (<%= r.targetSlot.classGroup %>) <br>
+        <% } else { %>
+          <b>Requested Subject:</b> <%= r.targetSubject %> <br>
+        <% } %>
+
+        Status: <%= r.status %> <br>
+
+        <% if (r.status === "pending") { %>
+          <form action="/exchange/accept/<%= r._id %>" method="GET" style="display:inline;">
+  <button type="submit">Accept</button>
+</form>
+
+          <form action="/exchange/decline/<%= r._id %>" method="POST" style="display:inline;">
+            <button type="submit">Decline</button>
+          </form>
+        <% } %>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>
