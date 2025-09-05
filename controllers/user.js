@@ -15,7 +15,7 @@ module.exports.signup = async (req, res, next) => {
     teaches,
     rollNumber,
   } = req.body;
-
+ 
   const newUser = new User({
     email,
     username,
