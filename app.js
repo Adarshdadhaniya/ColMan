@@ -16,6 +16,7 @@ const adminRoutes = require("./routes/admin.js");
  const teacherRouter = require("./routes/teacher.js");
 // const roomRoutes = require("./routes/rooms.js");
 const exchangerouter = require("./routes/exchange.js");
+const leaveRouter = require("./routes/leave.js");
 
 
 
@@ -110,6 +111,7 @@ app.use("/admin", adminRoutes);
 app.use("/teacher", teacherRouter);
 // app.use("/rooms", roomRoutes);
 app.use("/exchange",exchangerouter);
+app.use("/leave", leaveRouter);
 app.use("/", usersRouter);
 
 
@@ -124,8 +126,51 @@ app.use("/", usersRouter);
 // });
 
 
+// const ExchangeRequest = require("./models/ExchangeRequest");
 
+// async function compareExchangeRequests() {
+//   try {
+//     // 1. Fetch all exchange requests with populated receiver
+//     const exchangeRequests = await ExchangeRequest.find({})
+//       .populate("receiver")
+//       .lean();
 
+//     console.log("All Exchange Requests:", exchangeRequests);
+
+//     // 2. Find all teachers who have slots for BCA2 or BCA3 using $or
+//     const slots = await TimetableSlot.find({
+//       $or: [{ classGroup: "BCA-2" }, { classGroup: "BCA-3" }]
+//     })
+//       .populate("teacher") // assuming your TimetableSlot has a `teacher` reference
+//       .lean();
+
+//     // Get unique teacher IDs
+//     const teacherIds = [...new Set(slots.map(slot => slot.teacher._id.toString()))];
+
+//     console.log("Teachers teaching BCA2/BCA3:", teacherIds);
+
+//     // 3. Compare exchange request receivers with these teachers
+//     let count = 0;
+//     let matchedRequests = [];
+//     exchangeRequests.forEach((req) => {
+//       const receiverId = req.receiver?._id.toString();
+//       if (teacherIds.includes(receiverId)) {
+//         console.log(`Exchange Request ${req._id}: SAME`);
+//         count++;
+//         matchedRequests.push(req);
+//       } else {
+//         console.log(`Exchange Request ${req._id}: UNMATCHED`);
+//       }
+//     });
+//     console.log(`Total matched exchange requests: ${count}`);
+//     console.log("Matched Exchange Requests:", matchedRequests);
+//   } catch (err) {
+//     console.error("Error:", err);
+//   }
+// }
+
+// // Run the comparison function
+// compareExchangeRequests();
 
 cron.schedule("0 1 * * *", async () => { // runs at 1:00 AM
   try {

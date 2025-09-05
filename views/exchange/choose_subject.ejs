@@ -9,8 +9,8 @@
   <input type="hidden" name="mode" value="<%= mode %>">
 
   <% if (mode === 'cover' || mode === 'swap') { %>
-    <label for="targetSubject">Select subject for <%= target.name %> to teach:</label>
-    <select name="targetSubject" id="targetSubject" required>
+    <label for="targetSubject">Select subject for <%= target.username %> to teach:</label>
+    <select name="targetSubject" id="targetSubject" >
       <% if (subjects.length === 0) { %>
         <option value="">No subjects available</option>
       <% } else { %>

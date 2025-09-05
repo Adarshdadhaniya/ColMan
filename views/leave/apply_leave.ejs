@@ -1,0 +1,58 @@
+<h2>Apply for Leave</h2>
+
+<form id="leaveForm" action="/leave/apply" method="POST">
+  <label for="date">Select Date:</label>
+  <input type="date" id="date" name="date" required>
+
+  <h3>Select Slots:</h3>
+  <div id="slots-container">
+    <% slots.forEach(slot => { %>
+      <div class="slot" 
+           data-date="<%= slot.date ? slot.date.toISOString().split('T')[0] : '' %>" 
+           data-day="<%= slot.day %>">
+        <input type="checkbox" name="slotIds" value="<%= slot._id %>">
+        <%= slot.classGroup %> - <%= slot.subject %> - <%= slot.timeSlot %>
+      </div>
+    <% }) %>
+  </div>
+
+  <label for="reason">Reason (optional):</label>
+  <textarea name="reason" id="reason"></textarea>
+
+  <button type="submit">Apply Leave</button>
+</form>
+
+<script>
+  const dateInput = document.getElementById('date');
+  const allSlots = document.querySelectorAll('.slot');
+
+  // Hide all slots initially
+  allSlots.forEach(slot => slot.style.display = 'none');
+
+  function getDayName(dateStr) {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return days[new Date(dateStr).getDay()];
+  }
+
+  dateInput.addEventListener('change', () => {
+    const selectedDate = dateInput.value;
+    const selectedDay = getDayName(selectedDate);
+
+    allSlots.forEach(slot => {
+      const slotDate = slot.dataset.date;
+      const slotDay = slot.dataset.day;
+
+      if ((slotDate && slotDate === selectedDate) || (!slotDate && slotDay === selectedDay)) {
+        slot.style.display = 'block';
+      } else {
+        slot.style.display = 'none';
+        slot.querySelector('input[type="checkbox"]').checked = false;
+      }
+    });
+  });
+
+   const allSlotIds = Array.from(document.querySelectorAll('input[name="slotIds"]'))
+                           .map(input => input.value);
+
+  console.log('All available slot IDs:', allSlotIds);
+</script>

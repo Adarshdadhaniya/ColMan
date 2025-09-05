@@ -334,7 +334,7 @@ postAcceptSubject: async (req, res) => {
 
  postSendRequest: async (req, res) => {
   const { slotId, teacherId, busySlotId, date, dateB, mode, targetSubject } = req.body;
-
+  console.log(targetSubject);
   const slot = await TimetableSlot.findById(slotId);
   const target = await User.findById(teacherId);
   const busySlot = busySlotId ? await TimetableSlot.findById(busySlotId) : null;
@@ -423,51 +423,49 @@ postAcceptRequest: async (req, res) => {
     const collegeIdA = initiatingSlot.collegeId || sender.collegeId || receiver.collegeId;
 
     if (type === "cover") {
-      // Cover: only receiver teaches sender's slot
-      await TimetableSlot.create({
-        teacher: receiver._id,
-        classGroup: initiatingSlot.classGroup,
-        subject: targetSubject,           // make sure targetSubject is sent from form
-        date: dateA,
-        day: dayA,
-        timeSlot: initiatingSlot.timeSlot,
-        room: initiatingSlot.room,
-        collegeId: collegeIdA
-      });
-      // Sender continues their original slot; no changes
-    }
+  // Cover: only receiver teaches sender's slot
+  await ExchangeSlot.create({
+    teacher: receiver._id,
+    classGroup: initiatingSlot.classGroup,
+    subject: targetSubject,
+    originalSlot: initiatingSlot._id,   // link to original slot
+    date: dateA,
+    timeSlot: initiatingSlot.timeSlot,
+    room: initiatingSlot.room,
+    isExtra: false,
+    exchangeType: "cover"
+  });
+}
 
-    if (type === "swap") {
-      // 1. Update sender's slot to be taught by receiver
-      await TimetableSlot.create({
-        teacher: receiver._id,
-        classGroup: initiatingSlot.classGroup,
-        subject: targetSubject,
-        date: dateA,
-        day: dayA,
-        timeSlot: initiatingSlot.timeSlot,
-        room: initiatingSlot.room,
-        collegeId: collegeIdA
-      });
+if (type === "swap") {
+  // 1. Update sender's slot to be taught by receiver
+  await ExchangeSlot.create({
+    teacher: receiver._id,
+    classGroup: initiatingSlot.classGroup,
+    subject: targetSubject,
+    originalSlot: initiatingSlot._id,
+    date: dateA,
+    timeSlot: initiatingSlot.timeSlot,
+    room: initiatingSlot.room,
+    isExtra: false,
+    exchangeType: "swap"
+  });
 
-      // 2. Update receiver's original slot to be taught by sender
-      if (targetSlot) {
-        const dayB = targetSlot.day || new Date(dateB || dateA).toLocaleDateString("en-US", { weekday: "long" });
-        const collegeIdB = targetSlot.collegeId || sender.collegeId || receiver.collegeId;
-
-        await TimetableSlot.create({
-          teacher: sender._id,
-          classGroup: targetSlot.classGroup,
-          subject: initiatingSubject,
-          date: dateB || dateA,
-          day: dayB,
-          timeSlot: targetSlot.timeSlot,
-          room: targetSlot.room,
-          collegeId: collegeIdB
-        });
-      }
-    }
-
+  // 2. Update receiver's original slot to be taught by sender
+  if (targetSlot) {
+    await ExchangeSlot.create({
+      teacher: sender._id,
+      classGroup: targetSlot.classGroup,
+      subject: initiatingSubject,
+      originalSlot: targetSlot._id,
+      date: dateB || dateA,
+      timeSlot: targetSlot.timeSlot,
+      room: targetSlot.room,
+      isExtra: false,
+      exchangeType: "swap"
+    });
+  }
+}
     request.status = "accepted";
     request.targetSubject = targetSubject; // store selected subject
     await request.save();
