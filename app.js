@@ -8,16 +8,18 @@ const methodOverride = require("method-override");
 const ejsMate=require("ejs-mate");
 const MongoStore = require("connect-mongo");
 const cron = require("node-cron");
+
+
 const TimetableSlot = require("./models/TimetableSlot");
+const User = require("./models/User.js");
+
 
 const usersRouter = require("./routes/user.js");
-const User = require("./models/User.js");
 const adminRoutes = require("./routes/admin.js");
- const teacherRouter = require("./routes/teacher.js");
-// const roomRoutes = require("./routes/rooms.js");
+const teacherRouter = require("./routes/teacher.js");
 const exchangerouter = require("./routes/exchange.js");
 const leaveRouter = require("./routes/leave.js");
-
+const attendanceRoutes = require("./routes/attendance.js");
 
 
 const dbUrl = "mongodb://127.0.0.1:27017/colMan";  
@@ -26,7 +28,6 @@ const dbUrl = "mongodb://127.0.0.1:27017/colMan";
 async function main() {                 
   await mongoose.connect(dbUrl);       
 }
-
 
 
 main()                         
@@ -38,16 +39,12 @@ main()
   });
 
 
-
-
-
-
 app.set("view engine", "ejs");        
 app.engine('ejs',ejsMate);
 
 
-
 app.use(express.urlencoded({ extended: true }));  
+
 
 const store = MongoStore.create({         
   mongoUrl: dbUrl,                             
@@ -81,13 +78,10 @@ const sessionOptions = {
 
 app.use(session(sessionOptions));                 
 
-
 app.use(methodOverride("_method"));               
-
 
 app.use(passport.initialize());                   
 app.use(passport.session());                    
-
 
 passport.use(new LocalStrategy(User.authenticate())); 
 
@@ -96,24 +90,19 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());      
 
 
-
-
 app.use((req, res, next) => {
-  res.locals.currentUser = req.user;     // Make the logged-in user available to all EJS templates(only ejs not elsewhere) as `currentUser`
+  res.locals.currentUser = req.user;     
 
   next();
 });
 
 
-
-
+app.use("/", usersRouter);
 app.use("/admin", adminRoutes);
 app.use("/teacher", teacherRouter);
-// app.use("/rooms", roomRoutes);
 app.use("/exchange",exchangerouter);
 app.use("/leave", leaveRouter);
-app.use("/", usersRouter);
-
+app.use("/attendance", attendanceRoutes);
 
 
 // cron.schedule("0 2 * * *", async () => {

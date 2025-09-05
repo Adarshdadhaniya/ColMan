@@ -1,0 +1,38 @@
+
+
+<form action="/attendance/mark" method="POST">
+  <input type="hidden" name="date" value="<%= date %>">
+  <input type="hidden" name="slotId" value="<%= slot._id %>">
+
+  <table border="1" cellpadding="8">
+    <tr>
+      <th>Student</th>
+      <th>Status</th>
+    </tr>
+    <% students.forEach(student => { 
+         const rec = existing.find(r => r.student.toString() === student._id.toString());
+         const current = rec ? rec.status : "present"; 
+    %>
+      <tr>
+        <td><%= student.username %></td>
+        <td>
+          <label>
+            <input type="radio" name="records[<%= student._id %>]" value="present" 
+              <%= current==="present" ? "checked" : "" %>> Present
+          </label>
+          <label>
+            <input type="radio" name="records[<%= student._id %>]" value="absent" 
+              <%= current==="absent" ? "checked" : "" %>> Absent
+          </label>
+          <label>
+            <input type="radio" name="records[<%= student._id %>]" value="late" 
+              <%= current==="late" ? "checked" : "" %>> Late
+          </label>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+
+  <button type="submit">Save Attendance</button>
+</form>
+

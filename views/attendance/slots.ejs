@@ -1,0 +1,28 @@
+
+<h2>Your Slots for <%= date %></h2>
+
+<% if (slots.length === 0) { %>
+  <p>No slots assigned for this date.</p>
+<% } else { %>
+  <table border="1" cellpadding="8">
+    <tr>
+      <th>Time</th>
+      <th>Subject</th>
+      <th>ClassGroup</th>
+      <th>Action</th>
+    </tr>
+    <% slots.forEach(slot => { %>
+      <tr>
+        <td><%= slot.timeSlot %></td>
+        <td><%= slot.subject %></td>
+        <td><%= slot.classGroup %></td>
+        <td>
+          <a href="/attendance/mark?date=<%= date %>&slotId=<%= slot._id %>">
+            Mark Attendance
+          </a>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+<% } %>
+

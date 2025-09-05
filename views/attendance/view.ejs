@@ -1,0 +1,18 @@
+
+<h2>Attendance Records - <%= slot.subject %> - <%= slot.classGroup %> - <%= date %></h2>
+
+<table border="1" cellpadding="8">
+  <tr>
+    <th>Student</th>
+    <th>Status</th>
+  </tr>
+  <% records.forEach(r => { %>
+    <tr>
+      <td><%= r.student.username %></td>
+      <td><%= r.status %></td>
+    </tr>
+  <% }) %>
+</table>
+
+<a href="/attendance/mark?date=<%= date %>&slotId=<%= slot._id %>">Edit Attendance</a>
+

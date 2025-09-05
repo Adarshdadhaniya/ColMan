@@ -1,0 +1,20 @@
+
+<h2>Attendance Record - <%= student.name %></h2>
+
+<table border="1" cellpadding="8">
+  <tr>
+    <th>Date</th>
+    <th>Subject</th>
+    <th>ClassGroup</th>
+    <th>Status</th>
+  </tr>
+  <% records.forEach(r => { %>
+    <tr>
+      <td><%= new Date(r.date).toLocaleDateString() %></td>
+      <td><%= r.slot.subject %></td>
+      <td><%= r.slot.classGroup %></td>
+      <td><%= r.status %></td>
+    </tr>
+  <% }) %>
+</table>
+

@@ -42,7 +42,7 @@ module.exports.renderloginForm = (req, res) => {
 module.exports.login = async (req, res) => {
   let role = req.user.role;
   
-  let redirecturl = "/"; // default fallback
+  let redirecturl = "/login"; // default fallback
 
   if (role === "student") {
     redirecturl = "/student/dashboard";

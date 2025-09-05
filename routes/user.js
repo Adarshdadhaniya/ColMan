@@ -6,17 +6,12 @@ const {saveRedirectUrl}  = require("../middlewear.js");
 const userController = require("../controllers/user.js");
 
 
-
 router.route("/signup")
   .get(userController.renderSignUpForm)
   .post(
     saveRedirectUrl,
-    wrapAsync(userController.signup)  // errors from async part are caught
+    wrapAsync(userController.signup)  
   );
-
-//automatic avoiding of duplicate usernames and emails
-
-
 
 
 router.route("/login")
@@ -25,7 +20,7 @@ router.route("/login")
     saveRedirectUrl,
     passport.authenticate("local", {
         failureRedirect: "/login",
-        failureFlash: true,
+        // failureFlash: true,
     }),
    userController.login
 );

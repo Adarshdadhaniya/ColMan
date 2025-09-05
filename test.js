@@ -56,7 +56,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const exchangeDir = path.join(__dirname, 'views', 'exchange');
+const exchangeDir = path.join(__dirname, 'views', 'attendance');
 
 const files = fs.readdirSync(exchangeDir).filter(file => file.endsWith('.ejs'));
 
