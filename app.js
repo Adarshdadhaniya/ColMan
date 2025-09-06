@@ -205,43 +205,43 @@ cron.schedule("0 1 * * *", async () => { // runs at 1:00 AM
 
 
 
-// async function syncTeacherClassGroups() {
-//   const timetableSlots = await TimetableSlot.find({});
-//   const teacherClassGroups = {};
+async function syncTeacherClassGroups() {
+  const timetableSlots = await TimetableSlot.find({});
+  const teacherClassGroups = {};
 
-//   // Step 1: Collect actual classGroups from timetable
-//   for (const slot of timetableSlots) {
-//     if (!teacherClassGroups[slot.teacher]) {
-//       teacherClassGroups[slot.teacher] = new Set();
-//     }
-//     teacherClassGroups[slot.teacher].add(slot.classGroup);
-//   }
+  // Step 1: Collect actual classGroups from timetable
+  for (const slot of timetableSlots) {
+    if (!teacherClassGroups[slot.teacher]) {
+      teacherClassGroups[slot.teacher] = new Set();
+    }
+    teacherClassGroups[slot.teacher].add(slot.classGroup);
+  }
 
-//   // Step 2: Get all teachers
-//   const allTeachers = await User.find({ role: "teacher" });
+  // Step 2: Get all teachers
+  const allTeachers = await User.find({ role: "teacher" });
 
-//   for (const teacher of allTeachers) {
-//     const classGroupsSet = teacherClassGroups[teacher._id];
-//     const oldGroups = teacher.classGroup || [];
+  for (const teacher of allTeachers) {
+    const classGroupsSet = teacherClassGroups[teacher._id];
+    const oldGroups = teacher.classGroup || [];
 
-//     if (classGroupsSet) {
-//       const newGroups = Array.from(classGroupsSet);
-//       await User.findByIdAndUpdate(teacher._id, { classGroup: newGroups });
+    if (classGroupsSet) {
+      const newGroups = Array.from(classGroupsSet);
+      await User.findByIdAndUpdate(teacher._id, { classGroup: newGroups });
 
-//       console.log(
-//         `✅ Teacher ${teacher.username}:\n   Old: [${oldGroups}]\n   New: [${newGroups}]`
-//       );
-//     } else {
-//       await User.findByIdAndUpdate(teacher._id, { classGroup: [] });
+      console.log(
+        `✅ Teacher ${teacher.username}:\n   Old: [${oldGroups}]\n   New: [${newGroups}]`
+      );
+    } else {
+      await User.findByIdAndUpdate(teacher._id, { classGroup: [] });
 
-//       console.log(
-//         `⚠️ Teacher ${teacher.username}:\n   Old: [${oldGroups}]\n   New: [] (cleared, not teaching anything)`
-//       );
-//     }
-//   }
-// }
+      console.log(
+        `⚠️ Teacher ${teacher.username}:\n   Old: [${oldGroups}]\n   New: [] (cleared, not teaching anything)`
+      );
+    }
+  }
+}
 
-// // Call the function
+// Call the function
 // syncTeacherClassGroups();
 
 

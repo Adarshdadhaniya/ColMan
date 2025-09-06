@@ -32,12 +32,17 @@ const userSchema = new Schema({
     {
       type: String,
     },
-  ], 
+  ],
   rollNumber: {
     type: Number,
-  }, 
+  },
 });
 
+// ✅ Ensure only one admin per collegeId
+userSchema.index(
+  { collegeId: 1, role: 1 },
+  { unique: true, partialFilterExpression: { role: "admin" } }
+);
 
 userSchema.plugin(passportLocalMongoose);
 

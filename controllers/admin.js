@@ -119,12 +119,13 @@ module.exports.addSingleUser = async (req, res) => {
   });
 
   await User.register(newUser, password);
-  res.redirect("/admin/adduser");
+  res.redirect("/admin/adduser"); 
 };
 
 module.exports.renderEditUser = async (req, res) => {
   const { id } = req.params;
-  const user = await User.findById(id);
+  const user = await User.findOne({ _id: id, collegeId: req.user.collegeId });
+  if (!user) return res.status(403).send("Not authorized to edit this user");
   res.render("admin/editUser", { user });
 };
 
@@ -133,21 +134,27 @@ module.exports.updateUser = async (req, res) => {
   const { username, email, role, classGroup, teaches, rollNumber, collegeId } = req.body;
 
   // Check duplicate username
-  const existingUserByUsername = await User.findOne({ username, _id: { $ne: id } });
-  if (existingUserByUsername) {
-    return res.status(400).send("Username already taken!");
-  }
+ const existingUserByUsername = await User.findOne({
+  username,
+  _id: { $ne: id },
+  collegeId: req.user.collegeId
+});
+if (existingUserByUsername) {
+  return res.status(400).send("Username already taken!");
+}
 
   // Update user
-  await User.findByIdAndUpdate(id, {
+await User.findOneAndUpdate(
+  { _id: id, collegeId: req.user.collegeId }, // enforce same college
+  {
     username,
     email,
     role,
-    collegeId,
     classGroup: classGroup ? classGroup.split(";") : [],
     teaches: teaches ? teaches.split(";") : [],
     rollNumber: rollNumber ? parseInt(rollNumber) : undefined,
-  });
+  }
+);
 
   res.redirect("/admin/users");
 };
@@ -155,14 +162,15 @@ module.exports.updateUser = async (req, res) => {
 
 module.exports.deleteUser = async (req, res) => {
   const { id } = req.params;
-  await User.findByIdAndDelete(id);
+  await User.findOneAndDelete({ _id: id, collegeId: req.user.collegeId });
+
   res.redirect("/admin/users");
 };
 
 // ---------------- TIMETABLE ----------------
 module.exports.renderAllTimetables = async (req, res) => {
-  const teachers = await User.find({ role: "teacher" });
-  const classGroups = await User.distinct("classGroup", { role: "student" });
+  const teachers = await User.find({ role: "teacher", collegeId: req.user.collegeId });
+  const classGroups = await User.distinct("classGroup", { role: "student", collegeId: req.user.collegeId });
   res.render("admin/allTimetables", { teachers, classGroups });
 };
 
@@ -184,7 +192,7 @@ module.exports.addTimetable = async (req, res) => {
   } = req.body;
 
   const newSlot = new TimetableSlot({
-    collegeId,
+    collegeId: req.user.collegeId,
     classGroup,
     subject,
     teacher,
@@ -232,7 +240,7 @@ module.exports.bulkUploadTimetables = async (req, res) => {
     }
 
     return new TimetableSlot({
-      collegeId: row.collegeId,
+      collegeId: req.user.collegeId,
       classGroup: row.classGroup,
       subject: row.subject,
       teacher: teacherId,
@@ -259,15 +267,16 @@ module.exports.bulkUploadTimetables = async (req, res) => {
 
 module.exports.viewTimetableByClass = async (req, res) => {
   const { classGroup } = req.params;
-  const slots = await TimetableSlot.find({ classGroup }).populate("teacher");
+  const slots = await TimetableSlot.find({ classGroup, collegeId: req.user.collegeId }).populate("teacher");
   const grid = buildGrid(slots, true);
   res.render("admin/gridbyclass", { classGroup, grid, timeSlots: TIME_SLOTS, days: DAYS });
 };
 
 module.exports.viewTimetableByTeacher = async (req, res) => {
   const { teacherId } = req.params;
-  const teacher = await User.findById(teacherId);
-  const slots = await TimetableSlot.find({ teacher: teacherId }).populate("teacher");
+  const teacher = await User.findOne({ _id: teacherId, collegeId: req.user.collegeId });
+  if (!teacher) return res.status(403).send("Not authorized");
+  const slots = await TimetableSlot.find({ teacher: teacherId, collegeId: req.user.collegeId }).populate("teacher");
   const grid = buildGrid(slots, false);
   res.render("admin/gridbyteacher", { teacher, grid, timeSlots: TIME_SLOTS, days: DAYS });
 };
@@ -279,17 +288,19 @@ module.exports.renderEditSlot = async (req, res) => {
   let timetableSlot;
 
   if (target === "class" && classGroup) {
-    timetableSlot = await TimetableSlot.findOne({ day, timeSlot: slot, classGroup }).populate("teacher");
+    timetableSlot = await TimetableSlot.findOne({ day, timeSlot: slot, classGroup, collegeId: req.user.collegeId }).populate("teacher");
   } else if (target === "teacher" && teacherId) {
-    timetableSlot = await TimetableSlot.findOne({ day, timeSlot: slot, teacher: teacherId }).populate("teacher");
+    timetableSlot = await TimetableSlot.findOne({ day, timeSlot: slot, teacher: teacherId, collegeId: req.user.collegeId }).populate("teacher");
   }
+
 
   if (!timetableSlot) {
     return res.redirect("back");
   }
 
-  const teachers = await User.find({ role: "teacher" });
-  const classGroups = await User.distinct("classGroup", { role: "student" });
+  const teachers = await User.find({ role: "teacher", collegeId: req.user.collegeId });
+  const classGroups = await User.distinct("classGroup", { role: "student", collegeId: req.user.collegeId });
+
 
   res.render("admin/editslot", {
     slot: timetableSlot,
@@ -312,7 +323,11 @@ module.exports.updateSlot = async (req, res) => {
     timeSlot
   };
 
-  await TimetableSlot.findByIdAndUpdate(id, updatedData);
+  await TimetableSlot.findOneAndUpdate(
+    { _id: id, collegeId: req.user.collegeId },
+    { subject, teacher, classGroup, room, day, timeSlot }
+  );
+
 
   res.redirect("/admin/timetable");
 };
