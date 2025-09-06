@@ -1,0 +1,24 @@
+<h1>Assign Students for Exam: <%= exam.subject %> — <%= new Date(exam.date).toDateString() %></h1>
+
+<form method="POST" action="/exam/<%= exam._id %>/assign-students">
+  <% exam.roomAssignments.forEach((room, i) => { %>
+    <div style="margin-bottom: 20px;">
+      <h3><%= room.room %> (Capacity: <%= room.capacity %>)</h3>
+      
+      <% students.forEach(s => { %>
+        <label style="display: block; margin-left: 10px;">
+          <input 
+            type="checkbox" 
+            name="room_<%= i %>" 
+            value="<%= s._id %>"
+            <%= room.students.some(r => r._id.toString() === s._id.toString()) ? 'checked' : '' %> 
+          >
+          <%= s.username %> (<%= s.rollNumber %>)
+        </label>
+      <% }) %>
+    </div>
+  <% }) %>
+
+  <button type="submit">Save Assignments</button>
+</form>
+

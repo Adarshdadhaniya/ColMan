@@ -1,0 +1,12 @@
+<h1>My Exam Duties</h1>
+
+<ul>
+  <% exams.forEach(exam => { %>
+    <li>
+      <strong><%= exam.subject %></strong> —
+      <%= new Date(exam.date).toDateString() %> @ <%= exam.timeSlot %>
+      (Room(s): <%= exam.roomAssignments.map(r => r.room).join(", ") %>)
+    </li>
+  <% }) %>
+</ul>
+

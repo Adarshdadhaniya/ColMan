@@ -1,0 +1,13 @@
+<%- include('../partials/header') %>
+<h1>Upcoming Exams</h1>
+
+<ul>
+  <% exams.forEach(exam => { %>
+    <li>
+      <strong><%= exam.subject %></strong> —
+      <%= new Date(exam.date).toDateString() %> @ <%= exam.timeSlot %>
+    </li>
+  <% }) %>
+</ul>
+
+<%- include('../partials/footer') %>

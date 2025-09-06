@@ -1,0 +1,27 @@
+<h1>Assign Invigilators for Exam: <%= exam.subject %> — <%= new Date(exam.date).toDateString() %></h1>
+<p>Time: <%= exam.timeSlot %></p>
+
+<form method="POST" action="/exam/<%= exam._id %>/assign-invigilators">
+  <% rooms.forEach((room, i) => { %>
+    <div>
+      <h3><%= room.room %> (Capacity: <%= room.capacity %>)</h3>
+      <select name="invigilatorForRoom[]">
+        <option value="">-- Select Invigilator --</option>
+        <% freeTeachers.forEach(t => { %>
+          <option value="<%= t._id %>" <%= exam.invigilators.includes(t._id) ? 'selected' : '' %>>
+            <%= t.username %>
+            <% if (t.conflict) { %> (⚠ Busy)<% } %>
+          </option>
+        <% }) %>
+      </select>
+    </div>
+  <% }) %>
+
+  <label>
+    <input type="checkbox" name="overrideCreatorBusy" />
+    Allow exam creator to override their own busy slots (create FREE placeholders)
+  </label>
+
+  <button type="submit">Save Invigilators</button>
+</form>
+

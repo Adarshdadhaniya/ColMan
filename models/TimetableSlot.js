@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-
+// models/TimetableSlot.js
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const timetableSlotSchema = new Schema({
@@ -17,12 +17,13 @@ const timetableSlotSchema = new Schema({
   },
   teacher: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
     required: true,
   },
   day: {
     type: String,
     required: true,
+    default: 'not applicable' // store string 'not applicable' for exam-related entries
   },
   date: {
     type: Date,
@@ -30,7 +31,7 @@ const timetableSlotSchema = new Schema({
   },
   timeSlot: {
     type: String,
-    required: true,
+    required: true, // expected format "HH:MM-HH:MM"
   },
   room: {
     type: String,
@@ -42,4 +43,4 @@ const timetableSlotSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("TimetableSlot", timetableSlotSchema);
+module.exports = mongoose.model('TimetableSlot', timetableSlotSchema);

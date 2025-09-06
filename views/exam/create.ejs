@@ -1,0 +1,86 @@
+<!-- views/exam/create.ejs -->
+
+<h1 class="mb-4">Create New Exam</h1>
+
+<form method="POST" action="/exam/create">
+  <div>
+    <label>Exam Type:</label>
+    <input type="text" name="examType" required>
+  </div>
+
+  <div>
+    <label>Subject:</label>
+    <input type="text" name="subject" required>
+  </div>
+
+  <div>
+    <label>Class Group:</label>
+    <input type="text" name="classGroup" required>
+  </div>
+
+  <div>
+    <label>Date:</label>
+    <input type="date" id="exam-date" name="date" required>
+  </div>
+
+  <div>
+    <label>Time Slot:</label>
+    <div>
+  <label>Time Slot:</label>
+  <input type="text" id="exam-timeslot" name="timeSlot" 
+         placeholder="e.g. 9-12, 09:00-12:00" required>
+</div>
+
+  </div>
+
+  <h3 class="mt-4">Select Rooms</h3>
+  <div id="rooms-container">
+    <p>Please select a date and time slot first.</p>
+  </div>
+
+  <button type="submit">Create Exam</button>
+</form>
+
+<script>
+  const dateInput = document.getElementById("exam-date");
+  const timeInput = document.getElementById("exam-timeslot");
+  const roomsContainer = document.getElementById("rooms-container");
+
+  async function fetchRooms() {
+    const date = dateInput.value;
+    const timeSlot = timeInput.value;
+    if (!date || !timeSlot) {
+      roomsContainer.innerHTML = "<p>Please select date and time slot.</p>";
+      return;
+    }
+
+    try {
+      const res = await fetch(`/exam/available-rooms?date=${date}&timeSlot=${timeSlot}`);
+      const rooms = await res.json();
+
+      if (!rooms.length) {
+        roomsContainer.innerHTML = "<p>No rooms available at this time.</p>";
+        return;
+      }
+
+      roomsContainer.innerHTML = rooms.map(r => `
+        <div>
+          <label>
+            <input type="checkbox" name="selectedRooms" value="${r.room}|${r.capacity}">
+            ${r.room} — Full Capacity (${r.capacity})
+          </label>
+          <label>
+            <input type="checkbox" name="selectedRooms" value="${r.room}|${Math.ceil(r.capacity/2)}">
+            ${r.room} — Half Capacity (${Math.ceil(r.capacity/2)})
+          </label>
+        </div>
+      `).join("");
+    } catch (err) {
+      console.error(err);
+      roomsContainer.innerHTML = "<p>Error loading rooms.</p>";
+    }
+  }
+
+  dateInput.addEventListener("change", fetchRooms);
+  timeInput.addEventListener("change", fetchRooms);
+</script>

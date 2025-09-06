@@ -20,7 +20,7 @@ const teacherRouter = require("./routes/teacher.js");
 const exchangerouter = require("./routes/exchange.js");
 const leaveRouter = require("./routes/leave.js");
 const attendanceRoutes = require("./routes/attendance.js");
-
+const examRoutes = require("./routes/exam.js");
 
 const dbUrl = "mongodb://127.0.0.1:27017/colMan";  
 
@@ -103,7 +103,7 @@ app.use("/teacher", teacherRouter);
 app.use("/exchange",exchangerouter);
 app.use("/leave", leaveRouter);
 app.use("/attendance", attendanceRoutes);
-
+app.use("/exam", examRoutes);
 
 // cron.schedule("0 2 * * *", async () => {
 //   const today = new Date();
@@ -247,6 +247,36 @@ async function syncTeacherClassGroups() {
 
 // const cacheTeachers = require("./utils/teacherCache.js");
 // cacheTeachers(); // generate cache on server start
+
+
+const fs = require("fs");
+async function generateRoomsFile() {
+  try {
+    const rooms = await TimetableSlot.distinct("room");
+
+    const generatedRooms = rooms.map(room => ({
+      room,
+      capacity: Math.random() < 0.5 ? 35 : 40,
+    }));
+
+    const content = `// utils/room.js
+// Auto-generated from TimetableSlot collection
+
+const ROOMS = ${JSON.stringify(generatedRooms, null, 2)};
+
+module.exports = { ROOMS };
+`;
+
+    fs.writeFileSync("./utils/room.js", content, "utf8");
+    console.log(`✅ constants.js generated with ${generatedRooms.length} rooms`);
+  } catch (err) {
+    console.error("❌ Error generating constants.js:", err);
+  }
+}
+
+// Run once at startup
+// generateRoomsFile();
+
 
 
 
