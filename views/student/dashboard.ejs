@@ -1,0 +1,38 @@
+
+<h1 class="mb-4">Welcome, <%= user.username %></h1>
+
+<!-- Timetable -->
+<h2>📅 My Timetable</h2>
+<% if (Object.keys(timetable).length === 0) { %>
+  <p>No timetable assigned yet.</p>
+<% } else { %>
+  <% Object.keys(timetable).forEach(day => { %>
+    <h3><%= day %></h3>
+    <ul>
+      <% timetable[day].forEach(slot => { %>
+        <li>
+          <%= slot.timeSlot %> — 
+          <%= slot.subject %> (Room: <%= slot.room %>) — 
+          Teacher: <%= slot.teacher?.username || "TBD" %>
+        </li>
+      <% }) %>
+    </ul>
+  <% }) %>
+<% } %>
+
+<!-- Exams -->
+<h2 class="mt-4">📝 My Exams</h2>
+<% if (exams.length === 0) { %>
+  <p>No exams scheduled.</p>
+<% } else { %>
+  <ul>
+    <% exams.forEach(exam => { %>
+      <li>
+        <strong><%= exam.subject %></strong> — 
+        <%= new Date(exam.date).toDateString() %> @ <%= exam.timeSlot %> — 
+        Room: <%= exam.room %>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>
+

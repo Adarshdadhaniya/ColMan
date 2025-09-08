@@ -21,6 +21,7 @@ const exchangerouter = require("./routes/exchange.js");
 const leaveRouter = require("./routes/leave.js");
 const attendanceRoutes = require("./routes/attendance.js");
 const examRoutes = require("./routes/exam.js");
+const studentRoutes = require("./routes/student.js");
 
 const dbUrl = "mongodb://127.0.0.1:27017/colMan";  
 
@@ -104,7 +105,7 @@ app.use("/exchange",exchangerouter);
 app.use("/leave", leaveRouter);
 app.use("/attendance", attendanceRoutes);
 app.use("/exam", examRoutes);
-
+app.use("/student", studentRoutes);
 // cron.schedule("0 2 * * *", async () => {
 //   const today = new Date();
 //   await TimetableSlot.deleteMany({
